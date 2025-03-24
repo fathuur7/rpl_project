@@ -5,17 +5,15 @@ import { OrbitControls, useGLTF, PresentationControls, Environment, Center } fro
 import { Suspense } from "react"
 
 function Model() {
-  const { scene } = useGLTF("/models/model.glb") // Model ada di public/models/
+  const { scene } = useGLTF("/models/model.glb")
 
   return (
-    <Center>
-      <primitive
-        object={scene}
-        scale={2.5}
-        position={[0, 0, 0]}
-        frustumCulled={false} // Mencegah model hilang saat di luar kamera
-      />
-    </Center>
+    <primitive
+      object={scene}
+      scale={2.5}
+      position={[0, 0, 0]}
+      frustumCulled={false}
+    />
   )
 }
 
@@ -24,7 +22,7 @@ export default function ModelViewer() {
     <div className="w-full h-full">
       <Canvas
         style={{ width: "100%", height: "100%" }}
-        camera={{ position: [0, 0, 5], fov: 45, near: 0.1, far: 1000 }} // Adjusted camera position
+        camera={{ position: [0, 0, 5], fov: 45, near: 0.1, far: 1000 }}
         shadows
       >
         <Suspense fallback={null}>
@@ -37,24 +35,16 @@ export default function ModelViewer() {
           {/* Environment for better lighting and reflections */}
           <Environment preset="city" />
 
-          {/* Presentation Controls with adjusted settings */}
-          <PresentationControls
-            global
-            rotation={[0, 0, 0]}
-            polar={[-Math.PI / 2, Math.PI / 2]} // Expanded range
-            azimuth={[-Math.PI, Math.PI]} // Full 360 rotation
-            config={{ mass: 2, tension: 400 }}
-            snap={{ mass: 4, tension: 400 }}
-          >
+          <Center>
             <Model />
-          </PresentationControls>
+          </Center>
 
-          {/* Orbit Controls with adjusted settings */}
+          {/* Use EITHER PresentationControls OR OrbitControls, not both */}
           <OrbitControls
             enableZoom={true}
             enablePan={true}
-            minPolarAngle={0} // Allow full rotation
-            maxPolarAngle={Math.PI} // Allow full rotation
+            minPolarAngle={0}
+            maxPolarAngle={Math.PI}
             dampingFactor={0.05}
             makeDefault
           />
@@ -63,4 +53,3 @@ export default function ModelViewer() {
     </div>
   )
 }
-
