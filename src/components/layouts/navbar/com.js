@@ -73,7 +73,8 @@ export default function Navbar() {
                 alt="Logo" 
                 width={38} 
                 height={38} 
-                className="rounded-lg shadow-sm" 
+                className="rounded-lg shadow-sm"
+                priority
               />
               <motion.div 
                 className="absolute inset-0 bg-blue-500/20" 

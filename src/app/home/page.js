@@ -1,86 +1,115 @@
 'use client';
-import { useEffect, useState, useRef } from 'react';
-import { motion } from 'framer-motion';
+import React, { useEffect, useState, useRef, useCallback, memo } from 'react';
+import { motion, useScroll, useSpring } from 'framer-motion';
 import Navbar from '@/components/layouts/navbar/com';
 import HeroSection from '@/components/home/heroSection';
 import FeatureSlider from '@/components/home/FeatureSlider';
-// import { ArrowRight, Star, BadgeCheck, TrendingUp } from 'lucide-react';
-// import Categories from '@/components/home/Categories';
+import CreativePotentialSection from '@/components/home/ads'
+import DesignHeroSection from '@/components/home/heroSectionLeft'
+
+// Memoized component to prevent unnecessary re-renders
+const SmoothScrollContainer = memo(({ children }) => {
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
+
+  return (
+    <>
+      {children}
+      <motion.div 
+        className="progress-bar" 
+        style={{ 
+          scaleX,
+          position: 'fixed', 
+          bottom: 0, 
+          left: 0, 
+          right: 0, 
+          height: '4px', 
+          background: 'linear-gradient(to right, #4A90E2, #7B68EE)', 
+          transformOrigin: '0%',
+          zIndex: 1000 
+        }} 
+      />
+    </>
+  );
+});
 
 export default function Home() {
   const [portfolioItems, setPortfolioItems] = useState([]);
   const [featuredSlides, setFeaturedSlides] = useState([]);
-  // const [activeCategory, setActiveCategory] = useState('Discover');
   const [isLoading, setIsLoading] = useState(true);
   const statsRef = useRef(null);
 
-  // Animation variants
-  const fadeInUp = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
-  };
+  // Memoized fetch function to prevent recreating on every render
+  const fetchPortfolioData = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      const response = await fetch('/data/data.json');
+      const data = await response.json();
 
-  const staggerContainer = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  };
-
-  useEffect(() => {
-    // Fetch portfolio data
-    setIsLoading(true);
-    fetch('/data/data.json')
-      .then((response) => response.json())
-      .then((data) => {
-        if (Array.isArray(data)) {
-          const updatedData = data.map((item, index) => ({ id: index + 1, ...item }));
-          setPortfolioItems(updatedData);
-          
-          // Create featured slides from the first 15 items
-          if (updatedData.length > 0) {
-            const featured = updatedData.slice(0, 15).map(item => ({
-              title: item.title || 'Untitled',
-              description: item.category || '',
-              image: item.image_url || '/placeholder-image.jpg'
-            }));
-            setFeaturedSlides(featured);
-          }
+      if (Array.isArray(data)) {
+        const updatedData = data.map((item, index) => ({ id: index + 1, ...item }));
+        setPortfolioItems(updatedData);
+        
+        // Create featured slides from the first 15 items
+        if (updatedData.length > 0) {
+          const featured = updatedData.slice(0, 15).map(item => ({
+            title: item.title || 'Untitled',
+            description: item.category || '',
+            image: item.image_url || '/placeholder-image.jpg'
+          }));
+          setFeaturedSlides(featured);
         }
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.error('Error fetching portfolio data:', error);
-        // Set empty arrays on error
-        setPortfolioItems([]);
-        setFeaturedSlides([]);
-        setIsLoading(false);
-      });
+      }
+      setIsLoading(false);
+    } catch (error) {
+      console.error('Error fetching portfolio data:', error);
+      setPortfolioItems([]);
+      setFeaturedSlides([]);
+      setIsLoading(false);
+    }
   }, []);
 
-  const categories = [
-    'Discover', 'Animation', 'Branding', 'Illustration', 'Mobile', 
-    'Print', 'Product Design', 'Typography', 'Web Design'
-  ];
+  // Optimized useEffect with cleanup
+  useEffect(() => {
+    fetchPortfolioData();
+
+    // Smooth scroll polyfill
+    const smoothScroll = () => {
+      document.documentElement.style.scrollBehavior = 'smooth';
+    };
+    smoothScroll();
+
+    return () => {
+      document.documentElement.style.scrollBehavior = 'auto';
+    };
+  }, [fetchPortfolioData]);
+
+  // Performance optimization: Memoized animation variants
+  const fadeInUp = React.useMemo(() => ({
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
+  }), []);
 
   return (
-    <div className="min-h-screen bg-white">      
-      <header className="border-b border-gray-100">
-        <Navbar />
-      </header>
-      
-      <main>
-        {/* Hero Section */}
-        <section className="w-full overflow-hidden bg-gradient-to-b from-white to-gray-50 py-20 md:py-28">
-          <HeroSection />
-        </section>
+    <SmoothScrollContainer>
+      <div className="min-h-screen bg-white will-change-transform ">      
+        <header className="border-b border-gray-100">
+          <Navbar />
+        </header>
         
-        {/* Featured Projects Slider Section */}
-        <section className="container mx-auto py-12">
-           <motion.div 
+        <main className="overflow-hidden">
+          {/* Hero Section */}
+          <section className="w-full overflow-hidden bg-gradient-to-b from-white to-gray-50 py-20 md:py-28">
+            <HeroSection />
+          </section>
+          
+          {/* Featured Projects Slider Section */}
+          <section className="container mx-auto py-12">
+            <motion.div 
               className="text-center mb-16"
               initial="hidden"
               whileInView="visible"
@@ -99,34 +128,22 @@ export default function Home() {
                 we deliver designs that <span className="text-indigo-600 font-semibold">inspire</span> and <span className="text-indigo-600 font-semibold">engage</span>.
               </p>
             </motion.div>
-          <FeatureSlider slides={featuredSlides} />
-        </section>
-        
-        {/* component categories */}
-        <section>
-          {/* <Categories/> */}
-        </section>
-      </main>
+            <FeatureSlider slides={featuredSlides} />
+          </section>
+          
+          {/* Sections */}
+          <section>
+            <CreativePotentialSection/>
+          </section>
 
-      {/* Simple Footer */}
-      <footer className="">
-   
-      </footer>
+          <section className="px-12">
+            <DesignHeroSection/>
+          </section>
+        </main>
 
-      {/* Custom style for counter animation */}
-      <style jsx global>{`
-        @keyframes countUp {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-in .animate-counter {
-          animation: countUp 0.8s forwards;
-        }
-        .animate-in > div:nth-child(1) .animate-counter { animation-delay: 0.1s; }
-        .animate-in > div:nth-child(2) .animate-counter { animation-delay: 0.3s; }
-        .animate-in > div:nth-child(3) .animate-counter { animation-delay: 0.5s; }
-        .animate-in > div:nth-child(4) .animate-counter { animation-delay: 0.7s; }
-      `}</style>
-    </div>
+        {/* Footer Placeholder */}
+        <footer className=""></footer>
+      </div>
+    </SmoothScrollContainer>
   );
 }

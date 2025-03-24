@@ -122,22 +122,22 @@ export default function HeroSection() {
             variants={itemVariants}
           >
            <motion.h1
-              className="text-4xl font-extrabold leading-tight text-[#1a1f36] md:text-5xl lg:text-6xl tracking-wide"
-              variants={itemVariants}
-            >
-              Introducing <span className="text-blue-700">TIF Design</span>  
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-500">
-                : Elevate
-              </span>
-            </motion.h1>
+            className="text-4xl font-extrabold leading-tight text-[#1a1f36] md:text-5xl lg:text-6xl tracking-wide"
+            variants={itemVariants}
+          >
+            Introducing <span className="text-blue-700">TIF Design</span>  
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-500">
+              : Elevate
+            </span>
+          </motion.h1>
 
-            <motion.p 
-              className="mt-4 text-lg text-gray-700 max-w-2xl mx-auto leading-relaxed"
-              variants={itemVariants}
-            >
-              At <span className="font-semibold text-blue-700">TIF Design</span>, we are passionate about  
-              <span className="text-indigo-600 font-medium"> crafting exceptional user experiences.</span>
-            </motion.p>
+          <motion.p 
+            className="mt-4 text-lg text-gray-700 max-w-2xl mx-auto leading-relaxed"
+            variants={itemVariants}
+          >
+            At <span className="font-semibold text-blue-700">TIF Design</span>, we are passionate about  
+            <span className="text-indigo-600 font-medium"> crafting exceptional user experiences.</span>
+          </motion.p>
 
 
             <motion.div className="relative mt-8 inline-block" variants={itemVariants}>

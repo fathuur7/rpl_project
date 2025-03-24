@@ -1,6 +1,6 @@
 import { Poppins } from "next/font/google";
 import "./globals.css";
-
+import { Suspense } from "react";
 
 // Configure Poppins font with all weights
 const poppins = Poppins({
@@ -15,22 +15,22 @@ const poppins = Poppins({
 export const metadata = {
   metadataBase: new URL("https://your-domain.com"),
   title: {
-    default: "art coperation | Your Perfect Company",
-    template: "%s | art coperation",
+    default: "Art Cooperation | Your Perfect Company",
+    template: "%s | Art Cooperation",
   },
   description: "Your Perfect Company. Find your perfect companion for any occasion. Safe, reliable, and professional companionship services.",
   keywords: [
     "your perfect company",
     "perfect companion",
-    "art coperation",
+    "art cooperation",
     "companion services",
     "safe companionship",
     "reliable companionship",
     "professional companionship",
   ],
-  authors: [{ name: "art coperation" }],
-  creator: "art coperation",
-  publisher: "art coperation",
+  authors: [{ name: "Art Cooperation" }],
+  creator: "Art Cooperation",
+  publisher: "Art Cooperation",
   formatDetection: {
     email: false,
     address: false,
@@ -64,57 +64,69 @@ export const metadata = {
   },
 };
 
-// Move viewport configuration to a separate export as required by Next.js
+// Viewport configuration
 export const viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
 };
 
+// Loading component for Suspense
+const Loading = () => (
+  <div className="flex justify-center items-center min-h-screen">
+    <div className="animate-pulse w-16 h-16 bg-gray-300 rounded-full"></div>
+  </div>
+);
 
-
-export default function RootLayout({ children  }) {
+export default function RootLayout({ children }) {
   return (
     <html 
       lang="en" 
       className={`${poppins.variable}`}
       suppressHydrationWarning
     >
-      <body className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 antialiased">
-        {/* Main content wrapper */}
+      <body 
+        className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 antialiased selection:bg-blue-200 selection:text-blue-900"
+      >
         <div className="flex min-h-screen flex-col">
-          {/* Skip to main content link for accessibility */}
+          {/* Accessibility skip link */}
           <a 
             href="#main-content" 
-            className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:p-4 focus:bg-white focus:text-black"
+            className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:p-2 focus:bg-white focus:text-black focus:border focus:border-blue-500 focus:rounded"
           >
             Skip to main content
           </a>
 
-          {/* Header */}
-    
-          
-          {/* Main content area */}
-          <main id="main-content" className="flex-grow">
-            {children}
+          {/* Main content area with loading fallback */}
+          <main 
+            id="main-content" 
+            className="flex-grow"
+          >
+            <Suspense fallback={<Loading />}>
+              {children}
+            </Suspense>
           </main>
-        
-   
         </div>
 
-        {/* Theme script to prevent flickering */}
+        {/* Theme script with improved error handling */}
         <script
+          id="theme-script"
           dangerouslySetInnerHTML={{
             __html: `
-              try {
-                const theme = localStorage.theme;
-                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                if (theme === 'dark' || (!theme && prefersDark)) {
-                  document.documentElement.classList.add('dark');
-                } else {
-                  document.documentElement.classList.remove('dark');
+              (function() {
+                try {
+                  const theme = localStorage.getItem('theme');
+                  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                  
+                  if (theme === 'dark' || (!theme && prefersDark)) {
+                    document.documentElement.classList.add('dark');
+                  } else {
+                    document.documentElement.classList.remove('dark');
+                  }
+                } catch (e) {
+                  console.error('Theme script error:', e);
                 }
-              } catch (_) {}
+              })();
             `,
           }}
         />

@@ -1,11 +1,11 @@
 "use client"
 
 import { Canvas } from "@react-three/fiber"
-import { OrbitControls, useGLTF, PresentationControls, Environment, Center } from "@react-three/drei"
+import { OrbitControls, useGLTF, Environment, Center } from "@react-three/drei"
 import { Suspense } from "react"
 
-function Model() {
-  const { scene } = useGLTF("/models/model.glb")
+function Model({ path }) {
+  const { scene } = useGLTF(path)
 
   return (
     <primitive
@@ -36,7 +36,8 @@ export default function ModelViewer() {
           <Environment preset="city" />
 
           <Center>
-            <Model />
+            {/* Berikan path ke model agar bisa dimuat */}
+            <Model path="/models/model.glb" />
           </Center>
 
           {/* Use EITHER PresentationControls OR OrbitControls, not both */}
