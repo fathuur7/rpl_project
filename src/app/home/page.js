@@ -132,11 +132,11 @@ export default function Home() {
           </section>
           
           {/* Sections */}
-          <section>
+          <section className="h-screen py-auto">
             <CreativePotentialSection/>
           </section>
 
-          <section className="px-12">
+          <section className="h-screen">
             <DesignHeroSection/>
           </section>
         </main>
