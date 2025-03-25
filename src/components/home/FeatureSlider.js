@@ -1,8 +1,8 @@
 "use client";
 import { useRef, useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, ArrowRight } from "lucide-react";
 import { register } from "swiper/element/bundle";
+import Image from "next/image";
 
 import "swiper/css";
 import "swiper/css/pagination";
@@ -100,14 +100,15 @@ const FeatureSlider = ({ slides = [] }) => {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               whileHover={{ y: -8, transition: { duration: 0.2 } }}
             >
-              <div className="relative h-56 md:h-64 lg:h-72 w-full overflow-hidden">
-                <img
-                  src={slide.image || "/placeholder.svg"}
+              <div className="relative h-56 md:h-64 lg:h-72 w-full overflow-hidden">s
+                <Image
+                  src={slide.image || "/placeholder.svg"} 
                   alt={slide.title || `Project ${index + 1}`}
+                  width={500} // Sesuaikan dengan kebutuhan
+                  height={300} // Sesuaikan dengan kebutuhan
                   className="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
-                  onError={(e) => {
-                    e.currentTarget.src = "/placeholder.svg";
-                  }}
+                  unoptimized={!slide.image} // Menghindari error jika gambar dari luar
+                  onError={(e) => { e.target.src = "/placeholder.svg"; }} // `onError` tidak bekerja di Next.js Image
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
                   <span className="text-white text-sm font-medium tracking-wide">View Details</span>

@@ -5,7 +5,7 @@ import { OrbitControls, useGLTF, Environment, Center } from "@react-three/drei"
 import { Suspense } from "react"
 
 function Model({ path }) {
-  const { scene } = useGLTF(path)
+  const { scene } = useGLTF(path) // ✅ Path sekarang diteruskan dengan benar
 
   return (
     <primitive
@@ -17,7 +17,7 @@ function Model({ path }) {
   )
 }
 
-export default function ModelViewer() {
+export default function ModelViewer({ path }) { // ✅ Perbaikan destructuring props
   return (
     <div className="w-full h-full">
       <Canvas
@@ -34,13 +34,12 @@ export default function ModelViewer() {
 
           {/* Environment for better lighting and reflections */}
           <Environment preset="city" />
-
+          
           <Center>
-            {/* Berikan path ke model agar bisa dimuat */}
-            <Model path="/models/model.glb" />
+            {/* Mengirimkan path dengan benar ke Model */}
+            <Model path={path} />
           </Center>
 
-          {/* Use EITHER PresentationControls OR OrbitControls, not both */}
           <OrbitControls
             enableZoom={true}
             enablePan={true}

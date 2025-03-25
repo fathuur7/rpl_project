@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react"
 import { motion, useMotionValue, useTransform, useSpring } from "framer-motion"
-import ModelViewer from "../models/ModelViewHome"
+import ModelViewer from "../models/ModelViewer"
 
 export default function HeroSection() {
   const [windowSize, setWindowSize] = useState({ width: 0, height: 0 })
@@ -101,7 +101,7 @@ export default function HeroSection() {
                 transform: `rotateX(${springRotateX}deg) rotateY(${springRotateY}deg)`,
               }}
             >
-              <ModelViewer />
+              <ModelViewer path="./models/home.glb" />
             </motion.div>
           </motion.div>
 
@@ -140,16 +140,16 @@ export default function HeroSection() {
                 transition={{ delay: 0.4 }}
               >
                 We craft cutting-edge digital experiences that blend creativity, 
-                technology, and user-centric design to elevate your brand's digital presence.
+                technology, and user-centric design to elevate your brand&apos;s digital presence.
               </motion.p>
-
+              
               <motion.div
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5 }}
               >
                 <button className="px-8 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors shadow-lg transform hover:scale-105 focus:outline-none">
-                  Explore Our Work
+                  Get in touch
                 </button>
               </motion.div>
             </motion.div>

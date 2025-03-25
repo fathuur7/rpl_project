@@ -1,41 +1,14 @@
 'use client';
-import React, { useEffect, useState, useRef, useCallback, memo } from 'react';
-import { motion, useScroll, useSpring } from 'framer-motion';
+import React, { useEffect, useState, useRef, useCallback} from 'react';
+import { motion } from 'framer-motion';
 import Navbar from '@/components/layouts/navbar/com';
 import HeroSection from '@/components/home/heroSection';
 import FeatureSlider from '@/components/home/FeatureSlider';
-import CreativePotentialSection from '@/components/home/ads'
-import DesignHeroSection from '@/components/home/heroSectionLeft'
+import CreativePotentialSection from '@/components/home/ads';
+import DesignHeroSection from '@/components/home/heroSectionLeft';
+import Footer from '@/components/layouts/footer/com';
+import SmoothScrollContainer from '@/components/barProgres';
 
-// Memoized component to prevent unnecessary re-renders
-const SmoothScrollContainer = memo(({ children }) => {
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001
-  });
-
-  return (
-    <>
-      {children}
-      <motion.div 
-        className="progress-bar" 
-        style={{ 
-          scaleX,
-          position: 'fixed', 
-          bottom: 0, 
-          left: 0, 
-          right: 0, 
-          height: '4px', 
-          background: 'linear-gradient(to right, #4A90E2, #7B68EE)', 
-          transformOrigin: '0%',
-          zIndex: 1000 
-        }} 
-      />
-    </>
-  );
-});
 
 export default function Home() {
   const [portfolioItems, setPortfolioItems] = useState([]);
@@ -96,19 +69,22 @@ export default function Home() {
 
   return (
     <SmoothScrollContainer>
-      <div className="min-h-screen bg-white will-change-transform ">      
+      <div className="min-h-screen bg-white overflow-hidden">      
+        {/* Navbar */}
         <header className="border-b border-gray-100">
           <Navbar />
         </header>
         
-        <main className="overflow-hidden">
+        <main className="space-y-16 md:space-y-24">
           {/* Hero Section */}
-          <section className="w-full overflow-hidden bg-gradient-to-b from-white to-gray-50 py-20 md:py-28">
-            <HeroSection />
+          <section className="relative bg-gradient-to-b from-white to-gray-50 py-20 md:py-28">
+            <div className="container mx-auto px-4">
+              <HeroSection />
+            </div>
           </section>
           
           {/* Featured Projects Slider Section */}
-          <section className="container mx-auto py-12">
+          <section className="container mx-auto px-4">
             <motion.div 
               className="text-center mb-16"
               initial="hidden"
@@ -131,18 +107,35 @@ export default function Home() {
             <FeatureSlider slides={featuredSlides} />
           </section>
           
-          {/* Sections */}
-          <section className="h-screen py-auto">
-            <CreativePotentialSection/>
+          {/* Creative Potential Section */}
+          <section>
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.2 }}
+              variants={fadeInUp}
+            >
+              <CreativePotentialSection/>
+            </motion.div>
           </section>
 
-          <section className="h-screen">
-            <DesignHeroSection/>
+          {/* Design Hero Section */}
+          <section className="container mx-auto px-4">
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.2 }}
+              variants={fadeInUp}
+            >
+              <DesignHeroSection/>
+            </motion.div>
           </section>
         </main>
 
-        {/* Footer Placeholder */}
-        <footer className=""></footer>
+        {/* Footer */}
+        <div>
+          <Footer/>
+        </div>
       </div>
     </SmoothScrollContainer>
   );

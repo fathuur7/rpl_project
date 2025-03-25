@@ -14,7 +14,7 @@ export default function HeroSection() {
   const [windowSize, setWindowSize] = useState({ width: 0, height: 0 })
   const mouseX = useMotionValue(0)
   const mouseY = useMotionValue(0)
-
+  
   const modelRef = useRef(null)
 
   // Initialize window size safely for Next.js
@@ -215,7 +215,7 @@ export default function HeroSection() {
                 transform: `rotateX(${springRotateX}deg) rotateY(${springRotateY}deg)`,
               }}
             >
-              <ModelViewer />
+              <ModelViewer path={"./models/model.glb"}/>
             </motion.div>
           </motion.div>
         </div>
