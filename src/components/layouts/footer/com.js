@@ -20,7 +20,7 @@ export default function Footer() {
       title: "Quick Links",
       links: [
         { name: "Home", href: "/" },
-        { name: "Services", href: "/services" },
+        { name: "Services", href: "/explore/services" },
         { name: "About Us", href: "/about" },
         { name: "Contact", href: "/contact" }
       ]
