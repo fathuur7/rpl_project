@@ -135,6 +135,7 @@ const AboutUs = () => {
           </div>
         </div>
 
+    </div>
         <div className="text-center bg-gradient-to-r from-blue-500 to-purple-600 text-white p-12 rounded-lg">
           <h2 className="text-3xl font-bold mb-4">
             Ready to Elevate Your Brand?
@@ -151,7 +152,6 @@ const AboutUs = () => {
           </Button>
         </div>
       </div>
-    </div>
     </main>
   );
 };
