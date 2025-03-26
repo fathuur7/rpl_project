@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState, useRef, useCallback} from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import Navbar from '@/components/layouts/navbar/com';
 import HeroSection from '@/components/home/heroSection';
@@ -7,14 +7,14 @@ import FeatureSlider from '@/components/home/FeatureSlider';
 import CreativePotentialSection from '@/components/home/ads';
 import DesignHeroSection from '@/components/home/heroSectionLeft';
 import Footer from '@/components/layouts/footer/com';
+import TestimonialSection from '@/components/home/testimonial';
 import SmoothScrollContainer from '@/components/barProgres';
-
 
 export default function Home() {
   const [portfolioItems, setPortfolioItems] = useState([]);
   const [featuredSlides, setFeaturedSlides] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const statsRef = useRef(null);
+  const [isInitialRender, setIsInitialRender] = useState(true);
 
   // Memoized fetch function to prevent recreating on every render
   const fetchPortfolioData = useCallback(async () => {
@@ -38,11 +38,13 @@ export default function Home() {
         }
       }
       setIsLoading(false);
+      setIsInitialRender(false);
     } catch (error) {
       console.error('Error fetching portfolio data:', error);
       setPortfolioItems([]);
       setFeaturedSlides([]);
       setIsLoading(false);
+      setIsInitialRender(false);
     }
   }, []);
 
@@ -66,7 +68,25 @@ export default function Home() {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
   }), []);
+  
+  // Placeholder component for initial render
+  const LoadingPlaceholder = () => (
+    <div className="flex justify-center items-center min-h-screen bg-white">
+      <div className="text-center">
+        <div className="animate-pulse">
+          <div className="h-12 bg-gray-200 w-64 mx-auto mb-4"></div>
+          <div className="h-8 bg-gray-200 w-96 mx-auto mb-2"></div>
+          <div className="h-6 bg-gray-200 w-80 mx-auto"></div>
+        </div>
+      </div>
+    </div>
+  );
 
+  // If it's initial render or loading, show loading placeholder
+  if (isInitialRender) {
+    return <LoadingPlaceholder />;
+  }
+  
   return (
     <SmoothScrollContainer>
       <div className="min-h-screen bg-white overflow-hidden">      
@@ -77,7 +97,7 @@ export default function Home() {
         
         <main className="space-y-16 md:space-y-24">
           {/* Hero Section */}
-          <section className="relative bg-gradient-to-b from-white to-gray-50 py-20 md:py-28">
+          <section className="relative py-20 md:py-28">
             <div className="container mx-auto px-4">
               <HeroSection />
             </div>
@@ -128,6 +148,17 @@ export default function Home() {
               variants={fadeInUp}
             >
               <DesignHeroSection/>
+            </motion.div>
+          </section>
+          {/* Testimonial Section */}
+          <section className="py-20 md:py-24 bg-gray-50 overflow-hidden">
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.2 }}
+              variants={fadeInUp}
+            >
+              <TestimonialSection/>
             </motion.div>
           </section>
         </main>

@@ -14,7 +14,6 @@ register();
 const FeatureSlider = ({ slides = [] }) => {
   const swiperRef = useRef(null);
   const [isInitialized, setIsInitialized] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
     // Ensure the ref is available and slides exist
@@ -22,36 +21,23 @@ const FeatureSlider = ({ slides = [] }) => {
       // Object with parameters
       const swiperParams = {
         slidesPerView: 1,
-        spaceBetween: 20,
-        loop: true,
+        spaceBetween: 24,
+        loop: false,
         pagination: {
           clickable: true,
           el: '.swiper-custom-pagination'
         },
-        navigation: {
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev',
+        breakpoints: {
+          1024: {
+            slidesPerView: 1,
+            spaceBetween: 24,
+          }
         },
         autoplay: {
           delay: 5000,
           disableOnInteraction: false,
         },
         speed: 800,
-        breakpoints: {
-          640: {
-            slidesPerView: 2,
-            spaceBetween: 20,
-          },
-          1024: {
-            slidesPerView: 3,
-            spaceBetween: 30,
-          },
-        },
-        on: {
-          slideChange: (swiper) => {
-            setActiveIndex(swiper.realIndex);
-          }
-        }
       };
 
       // Assign all parameters to Swiper element
@@ -61,7 +47,7 @@ const FeatureSlider = ({ slides = [] }) => {
       swiperRef.current.initialize();
       setIsInitialized(true);
     }
-  }, [slides]); // Reinitialize when slides change
+  }, [slides]);
 
   if (!slides || slides.length === 0) {
     return (
@@ -71,62 +57,74 @@ const FeatureSlider = ({ slides = [] }) => {
     );
   }
 
-  const handlePrev = () => {
-    if (swiperRef.current && isInitialized) {
-      swiperRef.current.swiper.slidePrev();
+  // Group slides into sets of 3
+  const groupedSlides = slides.reduce((resultArray, item, index) => { 
+    const chunkIndex = Math.floor(index/3)
+    if(!resultArray[chunkIndex]) {
+      resultArray[chunkIndex] = [] // start a new chunk
     }
-  };
-
-  const handleNext = () => {
-    if (swiperRef.current && isInitialized) {
-      swiperRef.current.swiper.slideNext();
-    }
-  };
+    resultArray[chunkIndex].push(item)
+    return resultArray
+  }, []);
 
   return (
     <div className="w-full relative">
-      {/* Custom navigation buttons */}     
       <swiper-container
         ref={swiperRef}
         init="false"
-        class="w-full"
+        className="w-full"
       >
-        {slides.map((slide, index) => (
-          <swiper-slide key={index}>
-            <motion.div 
-              className="bg-white rounded-xl overflow-hidden shadow-md h-full flex flex-col mb-8 mx-1"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              whileHover={{ y: -8, transition: { duration: 0.2 } }}
-            >
-              <div className="relative h-56 md:h-64 lg:h-72 w-full overflow-hidden">s
-                <Image
-                  src={slide.image || "/placeholder.svg"} 
-                  alt={slide.title || `Project ${index + 1}`}
-                  width={500} // Sesuaikan dengan kebutuhan
-                  height={300} // Sesuaikan dengan kebutuhan
-                  className="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
-                  unoptimized={!slide.image} // Menghindari error jika gambar dari luar
-                  onError={(e) => { e.target.src = "/placeholder.svg"; }} // `onError` tidak bekerja di Next.js Image
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                  <span className="text-white text-sm font-medium tracking-wide">View Details</span>
-                </div>
-              </div>
-              <div className="p-5 flex-grow">
-                <h3 className="font-semibold text-lg text-gray-900 mb-1">{slide.title || `Project ${index + 1}`}</h3>
-                <p className="text-gray-600 text-sm">{slide.description || "No description available"}</p>
-              </div>
-            </motion.div>
+        {groupedSlides.map((slideGroup, groupIndex) => (
+          <swiper-slide key={groupIndex} className="p-1">
+            <div className="grid grid-cols-3 gap-4 w-full">
+              {slideGroup.map((slide, index) => (
+                <motion.div 
+                  key={index}
+                  className="bg-white rounded-xl overflow-hidden shadow-md h-full flex flex-col"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ 
+                    duration: 0.5, 
+                    delay: index * 0.1 
+                  }}
+                  whileHover={{ 
+                    y: -8, 
+                    scale: 1.03,
+                    transition: { duration: 0.2 } 
+                  }}
+                >
+                  <div className="relative aspect-video w-full overflow-hidden">
+                    <Image
+                      src={slide.image || "/placeholder.svg"}
+                      alt={slide.title || `Project ${index + 1}`}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 33vw"
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                      unoptimized={!slide.image}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                      <span className="text-white text-sm font-medium tracking-wide">View Details</span>
+                    </div>
+                  </div>
+                  <div className="p-4 flex-grow">
+                    <h3 className="font-semibold text-base text-gray-900 mb-1 truncate">
+                      {slide.title || `Project ${index + 1}`}
+                    </h3>
+                    <p className="text-gray-600 text-xs line-clamp-2">
+                      {slide.description || "No description available"}
+                    </p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
           </swiper-slide>
         ))}
       </swiper-container>
       
       {/* Custom pagination */}
-      <div className="swiper-custom-pagination flex justify-center gap-1.5 mt-2"></div>
+      <div className="swiper-custom-pagination flex justify-center gap-1.5 mt-4"></div>
       
-      {/* Add custom styles for pagination */}
+      {/* Custom pagination styles */}
       <style jsx global>{`
         .swiper-custom-pagination .swiper-pagination-bullet {
           width: 8px;
@@ -140,12 +138,6 @@ const FeatureSlider = ({ slides = [] }) => {
           background: #4f46e5;
           width: 24px;
           border-radius: 4px;
-        }
-        
-        .swiper-container-horizontal > .swiper-pagination-bullets,
-        .swiper-pagination-custom,
-        .swiper-pagination-fraction {
-          bottom: 0px;
         }
       `}</style>
     </div>
