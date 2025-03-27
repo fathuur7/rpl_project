@@ -1,6 +1,8 @@
 'use client';
-import React, { useEffect, useState, useRef, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { motion } from 'framer-motion';
+
+// Components
 import Navbar from '@/components/layouts/navbar/com';
 import HeroSection from '@/components/home/heroSection';
 import FeatureSlider from '@/components/home/FeatureSlider';
@@ -9,50 +11,39 @@ import DesignHeroSection from '@/components/home/heroSectionLeft';
 import Footer from '@/components/layouts/footer/com';
 import TestimonialSection from '@/components/home/testimonial';
 import SmoothScrollContainer from '@/components/barProgres';
+import LoadingPlaceholder from '@/components/LoadingPlaceholder';
+
+// Hooks
+import useCurrentUser from '@/hooks/useCurrentUser';
+import usePortfolioData from '@/hooks/usePortfolioData';
+
+// Utils
+import { debugLog } from '@/utils/debugLogger';
 
 export default function Home() {
-  const [portfolioItems, setPortfolioItems] = useState([]);
-  const [featuredSlides, setFeaturedSlides] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isInitialRender, setIsInitialRender] = useState(true);
+  // Custom hooks for data fetching
+  const { user, userLoading } = useCurrentUser();
+  const { 
+    portfolioItems, 
+    featuredSlides, 
+    isLoading, 
+    isInitialRender 
+  } = usePortfolioData();
 
-  // Memoized fetch function to prevent recreating on every render
-  const fetchPortfolioData = useCallback(async () => {
-    try {
-      setIsLoading(true);
-      const response = await fetch('/data/data.json');
-      const data = await response.json();
-
-      if (Array.isArray(data)) {
-        const updatedData = data.map((item, index) => ({ id: index + 1, ...item }));
-        setPortfolioItems(updatedData);
-        
-        // Create featured slides from the first 15 items
-        if (updatedData.length > 0) {
-          const featured = updatedData.slice(0, 15).map(item => ({
-            title: item.title || 'Untitled',
-            description: item.category || '',
-            image: item.image_url || '/placeholder-image.jpg'
-          }));
-          setFeaturedSlides(featured);
-        }
-      }
-      setIsLoading(false);
-      setIsInitialRender(false);
-    } catch (error) {
-      console.error('Error fetching portfolio data:', error);
-      setPortfolioItems([]);
-      setFeaturedSlides([]);
-      setIsLoading(false);
-      setIsInitialRender(false);
-    }
-  }, []);
-
-  // Optimized useEffect with cleanup
+  // Performance optimization: Memoized animation variants
+  const fadeInUp = useMemo(() => ({
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
+  }), []);
+  
+  // Debug logging for user and portfolio data
   useEffect(() => {
-    fetchPortfolioData();
+    debugLog('Current User:', user);
+    debugLog('Portfolio Items:', portfolioItems);
+  }, [user, portfolioItems]);
 
-    // Smooth scroll polyfill
+  // Smooth scroll setup
+  useEffect(() => {
     const smoothScroll = () => {
       document.documentElement.style.scrollBehavior = 'smooth';
     };
@@ -61,29 +52,13 @@ export default function Home() {
     return () => {
       document.documentElement.style.scrollBehavior = 'auto';
     };
-  }, [fetchPortfolioData]);
+  }, []);
 
-  // Performance optimization: Memoized animation variants
-  const fadeInUp = React.useMemo(() => ({
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
-  }), []);
+  // Loading placeholder component
   
-  // Placeholder component for initial render
-  const LoadingPlaceholder = () => (
-    <div className="flex justify-center items-center min-h-screen bg-white">
-      <div className="text-center">
-        <div className="animate-pulse">
-          <div className="h-12 bg-gray-200 w-64 mx-auto mb-4"></div>
-          <div className="h-8 bg-gray-200 w-96 mx-auto mb-2"></div>
-          <div className="h-6 bg-gray-200 w-80 mx-auto"></div>
-        </div>
-      </div>
-    </div>
-  );
 
   // If it's initial render or loading, show loading placeholder
-  if (isInitialRender) {
+  if (isInitialRender || isLoading || userLoading) {
     return <LoadingPlaceholder />;
   }
   
@@ -150,6 +125,7 @@ export default function Home() {
               <DesignHeroSection/>
             </motion.div>
           </section>
+          
           {/* Testimonial Section */}
           <section className="py-20 md:py-24 bg-gray-50 overflow-hidden">
             <motion.div

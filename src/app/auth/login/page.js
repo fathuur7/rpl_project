@@ -55,12 +55,14 @@ export default function Login() {
 
   const handleGoogleSignIn = async () => {
     try {
-      await signIn('google');
+      // Redirect to backend OAuth endpoint
+      window.location.href = 'http://localhost:5000/api/auth/google';
     } catch (error) {
-      toast.error("Google Sign-In failed");
+      console.error('Google Sign-In Error:', error);
     }
   };
-
+  
+  
   return (
     <motion.div 
       initial={{ opacity: 0, scale: 0.95 }}
@@ -169,7 +171,7 @@ export default function Login() {
 
         <div className="text-center mt-6">
           <p className="text-sm text-gray-600 dark:text-gray-400">
-            Don't have an account?
+            Don&apos;t have an account?
             <Link 
               href="./signup" 
               className="text-blue-600 dark:text-blue-400 hover:underline ml-1"
