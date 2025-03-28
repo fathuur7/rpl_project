@@ -6,13 +6,13 @@ export function middleware(req) {
   const path = req.nextUrl.pathname;
   
   // Rute yang memerlukan autentikasi
-  const protectedRoutes = ['/dashboard', '/profile', '/admin', '/settings' ,'/hire/designers','/hire'];
+  const protectedRoutes = ['/admin/dashboard', '/profile', '/admin', '/settings' ,'/hire/designers','/hire'];
   const authRoutes = ['/login', '/register', '/forgot-password', '/reset-password'];
   
   // Redirect jika mencoba mengakses rute yang memerlukan autentikasi tanpa login
   if (protectedRoutes.some(route => path.startsWith(route))) {
     if (!token) {
-      return NextResponse.redirect(new URL('./auth/login', req.url));
+      return NextResponse.redirect(new URL('/auth/login', req.url));
     }
   }
   

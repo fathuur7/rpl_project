@@ -45,10 +45,8 @@ export default function EnhancedNavbar() {
   const pathname = usePathname();
   const router = useRouter();
   
-  // Use the custom user hook
   const { user, userLoading } = useCurrentUser();
   
-  // Handle scroll effect
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
@@ -60,20 +58,15 @@ export default function EnhancedNavbar() {
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   
-  const handleLogin = () => {
-    router.push("/auth/login");
-  };
-
+  const handleLogin = () => router.push("/auth/login");
+  const handleSignUp = () => router.push("/auth/signup");
+  const handleDashboard = () => router.push("/admin/dashboard");
+  
   const handleLogout = async () => {
     await logOut();
     router.push("/");
   };
 
-  const handleSignUp = () => {
-    router.push("/auth/signup");
-  };
-
-  // Enhanced navigation links with icons and dropdowns
   const navLinks = [
     { 
       href: "/home", 
@@ -120,7 +113,6 @@ export default function EnhancedNavbar() {
     }
   ];
 
-  // Loading state
   if (userLoading) {
     return (
       <nav className="fixed top-0 w-full z-50 bg-white/90 border-b border-gray-100">
@@ -145,7 +137,6 @@ export default function EnhancedNavbar() {
       transition={{ type: "spring", stiffness: 100, damping: 20 }}
     >
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
-        {/* Logo and Brand */}
         <motion.div 
           className="flex items-center space-x-3"
           initial={{ opacity: 0, x: -20 }}
@@ -181,11 +172,9 @@ export default function EnhancedNavbar() {
           </Link>
         </motion.div>
 
-        {/* Desktop Navigation */}
         <div className="hidden md:flex items-center space-x-6">
-          {/* Navigation Links */}
           <div className="flex items-center space-x-4">
-            {navLinks.map((link, index) => (
+            {navLinks.map((link) => (
               <motion.div 
                 key={link.href}
                 whileHover={{ scale: 1.05 }}
@@ -232,7 +221,6 @@ export default function EnhancedNavbar() {
             ))}
           </div>
 
-          {/* Search and Notification Icons */}
           <div className="flex items-center space-x-3">
             <motion.div 
               whileHover={{ scale: 1.1 }}
@@ -250,7 +238,6 @@ export default function EnhancedNavbar() {
             </motion.div>
           </div>
           
-          {/* Authentication Buttons */}
           {!user ? (
             <div className="flex items-center space-x-3">
               <Button 
@@ -268,7 +255,6 @@ export default function EnhancedNavbar() {
               </Button>
             </div>
           ) : (
-            // User logged in section
             <div className="flex items-center space-x-3">
               <Avatar className="w-10 h-10 border-2 border-blue-100">
                 <AvatarImage 
@@ -315,11 +301,19 @@ export default function EnhancedNavbar() {
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
+
+              {user.role === "designer" && (
+                <Button 
+                  onClick={handleDashboard}
+                  className="rounded-full px-6 bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-700 hover:to-teal-700"
+                >
+                  Dashboard
+                </Button>
+              )}
             </div>
           )}
         </div>
 
-        {/* Mobile Menu Toggle */}
         <div className="md:hidden flex items-center space-x-3">
           <motion.button
             onClick={toggleMenu}
@@ -331,7 +325,6 @@ export default function EnhancedNavbar() {
         </div>
       </div>
 
-      {/* Mobile Navigation (simplified) */}
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
