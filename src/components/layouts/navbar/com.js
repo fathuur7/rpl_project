@@ -1,6 +1,6 @@
 "use client";
 
-import Cookies from "js-cookie";
+
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -36,6 +36,7 @@ import {
 import useCurrentUser from "@/hooks/useCurrentUser";
 import logOut from "@/utils/logOut";
 
+
 export default function EnhancedNavbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -58,13 +59,13 @@ export default function EnhancedNavbar() {
   }, []);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-
+  
   const handleLogin = () => {
     router.push("/auth/login");
   };
 
   const handleLogout = async () => {
-    await logOut();
+    await logOut(router);
   };
 
   const handleSignUp = () => {
