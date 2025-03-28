@@ -65,7 +65,8 @@ export default function EnhancedNavbar() {
   };
 
   const handleLogout = async () => {
-    await logOut(router);
+    await logOut();
+    router.push("/");
   };
 
   const handleSignUp = () => {
@@ -162,10 +163,11 @@ export default function EnhancedNavbar() {
             >
               <Image 
                 src="/favicon.ico" 
-                alt="TIFDesign Logo" 
+                alt="TIFDesign Logo"
                 width={45} 
                 height={45} 
                 className="object-cover"
+                priority
               />
             </motion.div>
             <div className="flex flex-col">

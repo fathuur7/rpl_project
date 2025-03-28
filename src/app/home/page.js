@@ -41,7 +41,7 @@ export default function Home() {
     debugLog('Current User:', user);
     debugLog('Portfolio Items:', portfolioItems);
   }, [user, portfolioItems]);
-
+  
   // Smooth scroll setup
   useEffect(() => {
     const smoothScroll = () => {

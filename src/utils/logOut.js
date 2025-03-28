@@ -1,15 +1,12 @@
-import Cookies from "js-cookie";
-
-export default async function logOut(router) {
+export default async function logOut() {
   try {
     const response = await fetch("http://localhost:5000/api/auth/logout", {
       method: "POST",
-      credentials: "include",
+      credentials: "include", // Pastikan cookie dikirim dalam request
     });
 
     if (response.ok) {
-      Cookies.remove("authToken");
-      router.push("/login");
+      console.log("Logout successful");
     } else {
       console.error("Logout failed");
     }

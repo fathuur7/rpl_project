@@ -1,11 +1,10 @@
 import { NextResponse } from "next/server";
-import { set } from "zod";
 
 export function middleware(req) {
   // Dapatkan token atau session
-  const token = req.cookies.get('connect.sid')?.value; // Sesuaikan dengan cookie session Anda
+  const token = req.cookies.get('connect.sid')?.value || req.cookies.get('token')?.value; // Sesuaikan dengan cookie session Anda
   const path = req.nextUrl.pathname;
-
+  
   // Rute yang memerlukan autentikasi
   const protectedRoutes = ['/dashboard', '/profile', '/admin', '/settings' ,'/hire/designers','/hire'];
   const authRoutes = ['/login', '/register', '/forgot-password', '/reset-password'];
@@ -16,7 +15,7 @@ export function middleware(req) {
       return NextResponse.redirect(new URL('./auth/login', req.url));
     }
   }
-
+  
   // Mencegah pengguna yang sudah login mengakses halaman login/register
   if (authRoutes.includes(path)) {
     if (token) {

@@ -28,30 +28,51 @@ export default function Login() {
   } = useForm({
     resolver: zodResolver(loginSchema)
   });
-
-  const onSubmit = async (data) => {
-    setIsLoading(true);
-    try {
-      const result = await signIn('credentials', {
-        redirect: false,
+  
+const onSubmit = async (data) => {
+  setIsLoading(true);
+  try {
+    const response = await fetch("http://localhost:5000/api/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
         email: data.email,
-        password: data.password
-      });
+        password: data.password,
+      }),
+      credentials: "include", // Jika backend menggunakan cookie untuk autentikasi
+    });
 
-      if (result?.error) {
-        toast.error("Login failed", {
-          description: "Invalid email or password"
-        });
-      } else {
-        toast.success("Login successful");
-        // Redirect or update state
-      }
-    } catch (error) {
-      toast.error("An unexpected error occurred");
-    } finally {
-      setIsLoading(false);
+    const result = await response.json();
+
+    if (!response.ok) {
+      toast.error("Login failed", {
+        description: result.message || "Invalid email or password",
+      });
+      return;
     }
-  };
+
+    toast.success("Login successful");
+
+    // Simpan token atau user data
+    if (result.token) {
+      localStorage.setItem("token", result.token);
+      console.log("Token:", result.token);
+    }
+
+    // Redirect setelah login
+    window.location.href = "/home"; // Jika pakai Next.js, bisa pakai router.push('/dashboard')
+
+  } catch (error) {
+    console.error("Login error:", error);
+    toast.error("An unexpected error occurred");
+  } finally {
+    setIsLoading(false);
+  }
+};
+  
+  
 
   const handleGoogleSignIn = async () => {
     try {
