@@ -54,13 +54,8 @@ const onSubmit = async (data) => {
     }
 
     toast.success("Login successful");
-
-    // Simpan token atau user data
-    if (result.token) {
-      localStorage.setItem("token", result.token);
-      console.log("Token:", result.token);
-    }
-
+    
+    
     // Redirect setelah login
     window.location.href = "/home"; // Jika pakai Next.js, bisa pakai router.push('/dashboard')
 

@@ -26,7 +26,7 @@ export default function useCurrentUser() {
       setUserLoading(false);
     }
   }, []);
-
+  
   useEffect(() => {
     fetchCurrentUser();
   }, [fetchCurrentUser]);
