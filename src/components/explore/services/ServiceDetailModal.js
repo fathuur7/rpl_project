@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 
+
 export default function ServiceDetailModal({ service, onClose }) {
     return (
         <motion.div 

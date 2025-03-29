@@ -3,9 +3,16 @@ import CategoriesPage from '@/components/category/crud'
 
 const page = () => {
   return (
-    <div>
+    <main>
+      <section>
+        {/* category page */}
         <CategoriesPage />
-    </div>
+      </section>
+      
+
+    
+
+    </main>
   )
 }
 

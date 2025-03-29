@@ -1,116 +1,88 @@
-'use client';
+'use client'
 
+import React, { useState, useEffect } from 'react';
+import CategoryForm from './CategoryForm';
+import CategoryList from './CategoryList';
+import { fetchCategories, addCategory, updateCategory, deleteCategory } from '@/services/categories';
 
-import { useState, useEffect } from "react";
-
-const API_URL = "http://localhost:5000/api/categories";
-
-export default function CategoriesPage() {
+const CategoriesPage = () => {
   const [categories, setCategories] = useState([]);
-  const [name, setName] = useState("");
-  const [editingId, setEditingId] = useState(null);
+  const [editingCategory, setEditingCategory] = useState(null);
 
+  // Fetch categories on component mount
   useEffect(() => {
-    fetchCategories();
+    loadCategories();
   }, []);
 
-  const fetchCategories = async () => {
+  // Load categories from the API
+  const loadCategories = async () => {
     try {
-      const response = await fetch(API_URL);
-      const data = await response.json();
-      setCategories(Array.isArray(data) ? data : []);
+      const data = await fetchCategories();
+      setCategories(data);
     } catch (error) {
-      console.error("Error fetching categories:", error);
+      console.error('Failed to load categories:', error);
     }
   };
 
-  const addCategory = async () => {
+  // Handle adding a new category
+  const handleAddCategory = async (categoryName) => {
     try {
-      const response = await fetch(API_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name }),
-      });
-      if (response.ok) {
-        setName("");
-        fetchCategories();
-      }
+      await addCategory(categoryName);
+      loadCategories();
     } catch (error) {
-      console.error("Error adding category:", error);
+      console.error('Failed to add category:', error);
     }
   };
 
-  const updateCategory = async (id) => {
+  // Handle updating an existing category
+  const handleUpdateCategory = async (id, newName) => {
     try {
-      const response = await fetch(`${API_URL}/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name }),
-      });
-      if (response.ok) {
-        setName("");
-        setEditingId(null);
-        fetchCategories();
-      }
+      await updateCategory(id, newName);
+      setEditingCategory(null);
+      loadCategories();
     } catch (error) {
-      console.error("Error updating category:", error);
+      console.error('Failed to update category:', error);
     }
   };
 
-  const deleteCategory = async (id) => {
+  // Handle deleting a category
+  const handleDeleteCategory = async (id) => {
     try {
-      const response = await fetch(`${API_URL}/${id}`, { method: "DELETE" });
-      if (response.ok) {
-        fetchCategories();
-      }
+      await deleteCategory(id);
+      loadCategories();
     } catch (error) {
-      console.error("Error deleting category:", error);
+      console.error('Failed to delete category:', error);
     }
+  };
+
+  // Prepare category for editing
+  const startEditing = (category) => {
+    setEditingCategory(category);
+  };
+
+  // Cancel editing
+  const cancelEditing = () => {
+    setEditingCategory(null);
   };
 
   return (
     <div className="container mx-auto p-4">
       <h2 className="text-xl font-bold mb-4">Category Management</h2>
-      <div className="mb-4">
-        <input
-          type="text"
-          placeholder="Category Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="border p-2 rounded mr-2"
-        />
-        <button
-          onClick={editingId ? () => updateCategory(editingId) : addCategory}
-          className="bg-blue-500 text-white px-4 py-2 rounded"
-        >
-          {editingId ? "Update" : "Add"}
-        </button>
-      </div>
-      <ul className="bg-gray-100 p-4 rounded-lg">
-        {categories.length > 0 ? (
-          categories.map((category) => (
-            <li key={category._id} className="flex justify-between items-center p-2 border-b">
-              <span>{category.name}</span>
-              <div>
-                <button
-                  onClick={() => { setEditingId(category._id); setName(category.name); }}
-                  className="bg-yellow-500 text-white px-3 py-1 rounded mr-2"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => deleteCategory(category._id)}
-                  className="bg-red-500 text-white px-3 py-1 rounded"
-                >
-                  Delete
-                </button>
-              </div>
-            </li>
-          ))
-        ) : (
-          <p>No categories found</p>
-        )}
-      </ul>
+      
+      <CategoryForm 
+        editingCategory={editingCategory}
+        onAddCategory={handleAddCategory}
+        onUpdateCategory={handleUpdateCategory}
+        onCancelEdit={cancelEditing}
+      />
+      
+      <CategoryList 
+        categories={categories}
+        onEditCategory={startEditing}
+        onDeleteCategory={handleDeleteCategory}
+      />
     </div>
   );
-}
+};
+
+export default CategoriesPage;
