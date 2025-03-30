@@ -7,6 +7,7 @@ export default async function logOut() {
 
     if (response.ok) {
       console.log("Logout successful");
+      localStorage.removeItem("user");
     } else {
       console.error("Logout failed");
     }

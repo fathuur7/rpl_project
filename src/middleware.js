@@ -3,10 +3,11 @@ import { NextResponse } from "next/server";
 export function middleware(req) {
   // Dapatkan token atau session
   const token = req.cookies.get('connect.sid')?.value || req.cookies.get('token')?.value; // Sesuaikan dengan cookie session Anda
+
   const path = req.nextUrl.pathname;
   
   // Rute yang memerlukan autentikasi
-  const protectedRoutes = ['/admin/dashboard', '/profile', '/admin', '/settings' ,'/hire/designers','/hire'];
+  const protectedRoutes = ['/admin/dashboard', '/profile', '/admin', '/settings', '/hire/designers', '/hire'];
   const authRoutes = ['/login', '/register', '/forgot-password', '/reset-password'];
   
   // Redirect jika mencoba mengakses rute yang memerlukan autentikasi tanpa login

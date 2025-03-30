@@ -9,7 +9,7 @@ export const navLinks = [
     description: "Explore our latest offerings"
   },
   { 
-    href: "/hire", 
+    href: "/hire/designers", 
     label: "Hire", 
     icon: <UserCircle className="h-5 w-5" />,
     description: "Find top talent",
@@ -18,6 +18,11 @@ export const navLinks = [
         href: "/hire/designers", 
         label: "Designers", 
         description: "Hire creative professionals"
+      },
+      { 
+        href: "/hire/status", 
+        label: "Status", 
+        description: "Track your projects"
       }
     ]
   },

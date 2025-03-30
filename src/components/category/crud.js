@@ -8,12 +8,12 @@ import { fetchCategories, addCategory, updateCategory, deleteCategory } from '@/
 const CategoriesPage = () => {
   const [categories, setCategories] = useState([]);
   const [editingCategory, setEditingCategory] = useState(null);
-
+  
   // Fetch categories on component mount
   useEffect(() => {
     loadCategories();
   }, []);
-
+  
   // Load categories from the API
   const loadCategories = async () => {
     try {

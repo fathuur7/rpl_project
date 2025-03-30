@@ -4,7 +4,7 @@ import { debugLog } from '@/utils/debugLogger';
 export default function useCurrentUser() {
   const [user, setUser] = useState(null);
   const [userLoading, setUserLoading] = useState(true);
-
+  
   const fetchCurrentUser = useCallback(async () => {
     try {
       setUserLoading(true);
@@ -17,6 +17,8 @@ export default function useCurrentUser() {
       }
       
       const data = await response.json();
+      localStorage.setItem('user', JSON.stringify(data));
+      
       setUser(data);
       debugLog('User fetched successfully:', data);
     } catch (error) {
