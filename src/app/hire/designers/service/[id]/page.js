@@ -40,7 +40,7 @@ const DetailPage = () => {
   const router = useRouter();
   
   const handleEdit = () => {
-    router.push(`/services/edit/${id}`);
+    router.push(`/hire/designers/service/edit/${id}`);
   } 
   
   const handleDeleteConfirm = async () => {
