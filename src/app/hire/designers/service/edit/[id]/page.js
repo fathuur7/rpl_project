@@ -161,19 +161,19 @@ const EditServicePage = () => {
     if (!formData.title.trim()) {
         setError('Title is required');
         setSubmitting(false);
-    return;
+        return;
     }
 
     if (!formData.category) {
         setError('Please select a category');
         setSubmitting(false);
-    return;
+        return
     }
 
     if (parseFloat(formData.budget) <= 0) {
         setError('Budget must be greater than zero');
         setSubmitting(false);
-    return;
+        return;
     }
     
     try {
