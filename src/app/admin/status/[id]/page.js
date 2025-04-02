@@ -2,7 +2,7 @@
 'use client'
 
 import { useState, useEffect } from 'react';
-import { useRouter, useParams } from 'next/navigation'; // Add useParams
+import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
 
 export default function ServiceDetail() {
@@ -12,20 +12,17 @@ export default function ServiceDetail() {
   const [applying, setApplying] = useState(false);
   const router = useRouter();
   const params = useParams();
-  const id = params.id; // Access id this way
+  const id = params.id;
   
   useEffect(() => {
-    // Only fetch data when id is available
     if (!id) return;
 
-    // Fetch service details with credentials for Passport
     fetch(`http://localhost:5000/api/designer/services/${id}`, {
-      credentials: 'include' // Include cookies for Passport session
+      credentials: 'include'
     })
       .then(response => {
         if (response.status === 401) {
-          // Unauthorized, redirect to login
-          router.push('/login');
+          router.push('/auth/login');
           throw new Error('Please log in to view service details');
         }
         if (!response.ok) {
@@ -48,24 +45,35 @@ export default function ServiceDetail() {
     
     fetch(`http://localhost:5000/api/designer/services/${id}/apply`, {
       method: 'PUT',
-      credentials: 'include', // Include cookies for Passport session
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json'
       }
     })
       .then(response => {
         if (response.status === 401) {
-          router.push('/login');
+          router.push('/auth/login');
           throw new Error('Please log in to apply for services');
         }
         if (!response.ok) {
-          throw new Error('Failed to apply for service');
+          return response.json().then(data => {
+            throw new Error(data.msg || 'Failed to apply for service');
+          });
         }
         return response.json();
       })
       .then(data => {
-        alert('Application submitted successfully!');
-        setApplying(false);
+        // Handle successful application with order creation
+        alert('Application submitted successfully! An order has been created.');
+        
+        // Check if we received order data in response
+        if (data.order && data.order._id) {
+          // Navigate to the order details page
+          router.push(`/orders/${data.order._id}`);
+        } else {
+          // If no order details, just refresh service details
+          router.push(`admin/status/${id}`);
+        }
       })
       .catch(err => {
         alert(err.message);
