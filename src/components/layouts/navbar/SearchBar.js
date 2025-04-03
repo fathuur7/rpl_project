@@ -5,6 +5,10 @@ import { useState } from "react";
 import { Search } from "lucide-react";
 import { motion } from "framer-motion";
 import { Input } from "@/components/ui/input";
+import { 
+  Bell
+ } from 'lucide-react'
+
 
 export default function SearchBar() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -23,6 +27,15 @@ export default function SearchBar() {
         onChange={(e) => setSearchQuery(e.target.value)}
       />
       <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
+
+      <Bell className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
+      <motion.div 
+        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5"
+        whileHover={{ scale: 1.2 }}
+        whileTap={{ scale: 0.9 }}
+      >
+        <Bell onClick={href => {window.location.href = "/notif"}} />
+      </motion.div>
     </motion.div>
   );
 }

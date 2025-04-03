@@ -17,6 +17,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { toast } from 'sonner';
 import { fetchCategories } from '@/services/categories';
 import useCurrentUser from "@/hooks/useCurrentUser";
+import Navbar from '@/components/layouts/navbar/com'
 
 const HireDesignerPage = () => {
   const router = useRouter();
@@ -66,7 +67,7 @@ const HireDesignerPage = () => {
   const handleDateChange = (date) => {
     setFormData({ ...formData, deadline: date });
   };
-
+  
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
     
@@ -159,6 +160,8 @@ const HireDesignerPage = () => {
   );
 
   return (
+    <main className="flex flex-col px-8 py-8">
+    <Navbar />
     <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto py-12 px-4">
         <PageHeader />
@@ -354,6 +357,7 @@ const HireDesignerPage = () => {
         </Card>
       </div>
     </div>
+    </main>
   );
 };
 
