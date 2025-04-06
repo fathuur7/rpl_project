@@ -89,7 +89,7 @@ export default function ServiceDetail() {
 
   return (
     <div className="container mx-auto p-4 max-w-2xl">
-      <Link href="/services" className="text-blue-500 mb-4 inline-block">
+      <Link href="#" onClick={() => router.back()} className="text-blue-500 mb-4 inline-block">
         &larr; Back to Services
       </Link>
       

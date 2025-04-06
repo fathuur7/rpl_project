@@ -1,10 +1,11 @@
 
 'use client'
 import React from 'react'
-import Services from '@/components/explore/services/service'
+
 import Sidebar from '@/components/layouts/sidebar/Sidebar'
 import Header from '@/components/layouts/header/Header'
 import useCurrentUser from '@/hooks/useCurrentUser'
+import CategoriesPage from '@/components/category/crud'
 
 const page = () => {
   const { user, userLoading } = useCurrentUser()
@@ -14,8 +15,8 @@ const page = () => {
         <Sidebar />
       
       <div className="flex-1">
-        <Header title="Services Management" user={user} />
-        <Services />
+        <Header title="Category Management" user={user} />
+        <CategoriesPage />
       </div>
     </div>
   </div>

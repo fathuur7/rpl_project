@@ -13,6 +13,7 @@ const PaymentPage = () => {
   const [paymentMethod, setPaymentMethod] = useState('');
   const [processing, setProcessing] = useState(false);
   const [snapToken, setSnapToken] = useState(null);
+  const [clientKey, setClientKey] = useState(null);
 
   useEffect(() => {
     if (!orderId) return;
@@ -50,7 +51,7 @@ const PaymentPage = () => {
   // Function to get Midtrans token
   const initiateMidtransToken = async (orderData) => {
     try {
-      const response = await fetch('http://localhost:5000/api/payments/generate-token', {
+      const response = await fetch('http://localhost:5000/api/payment/generate-token', {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
@@ -75,25 +76,33 @@ const PaymentPage = () => {
       
       const tokenData = await response.json();
       setSnapToken(tokenData.token);
+      setClientKey(tokenData.client_key);
       
       // Load Midtrans Snap JS when token is received
-      loadMidtransScript();
+      loadMidtransScript(tokenData.client_key);
     } catch (err) {
       setError('Payment initialization failed: ' + err.message);
     }
   };
   
   // Load Midtrans Snap JS
-  const loadMidtransScript = () => {
+  const loadMidtransScript = (clientKey) => {
     const midtransScriptUrl = 'https://app.sandbox.midtrans.com/snap/snap.js';
-    const midtransClientKey = 'your-client-key'; // Replace with your Midtrans client key
     
     // Check if script is already loaded
     if (!document.querySelector(`script[src="${midtransScriptUrl}"]`)) {
       const script = document.createElement('script');
       script.src = midtransScriptUrl;
-      script.setAttribute('data-client-key', midtransClientKey);
+      script.setAttribute('data-client-key', clientKey);
       script.async = true;
+      
+      script.onload = () => {
+        console.log('Midtrans Snap script loaded successfully');
+      };
+      
+      script.onerror = () => {
+        setError('Failed to load Midtrans payment script');
+      };
       
       document.body.appendChild(script);
     }
@@ -109,22 +118,30 @@ const PaymentPage = () => {
       setProcessing(true);
       
       try {
-        window.snap.pay(snapToken, {
-          onSuccess: function(result) {
-            handlePaymentCallback(result);
-          },
-          onPending: function(result) {
-            handlePaymentCallback(result);
-          },
-          onError: function(result) {
-            setError('Payment failed. Please try again.');
-            setProcessing(false);
-          },
-          onClose: function() {
-            setProcessing(false);
-          }
-        });
+        // Check if snap is available
+        if (window.snap) {
+          window.snap.pay(snapToken, {
+            onSuccess: function(result) {
+              handlePaymentCallback(result);
+            },
+            onPending: function(result) {
+              handlePaymentCallback(result);
+            },
+            onError: function(result) {
+              console.error('Payment error:', result);
+              setError('Payment failed. Please try again.');
+              setProcessing(false);
+            },
+            onClose: function() {
+              console.log('Customer closed the payment window');
+              setProcessing(false);
+            }
+          });
+        } else {
+          throw new Error('Midtrans Snap is not loaded properly');
+        }
       } catch (err) {
+        console.error('Snap pay error:', err);
         setError('Payment processing failed: ' + err.message);
         setProcessing(false);
       }
@@ -137,7 +154,7 @@ const PaymentPage = () => {
 
       setProcessing(true);
       try {
-        const response = await fetch('http://localhost:5000/api/payments/create', {
+        const response = await fetch('http://localhost:5000/api/payment/create', {
           method: 'POST',
           credentials: 'include',
           headers: { 'Content-Type': 'application/json' },
@@ -148,14 +165,16 @@ const PaymentPage = () => {
             midtransResponse: {
               transaction_status: 'settlement',
               transaction_id: `TRX-${Date.now()}`,
-              order_id: order._id,
-              payment_type: paymentMethod
+              order_id: `ORDER-${order._id}-${Date.now()}`,
+              payment_type: paymentMethod,
+              gross_amount: order.price
             }
           })
         });
 
         if (!response.ok) throw new Error('Payment processing failed. Please try again.');
 
+        const paymentData = await response.json();
         alert('Payment successful!');
         router.push(`/orders/${orderId}`);
       } catch (err) {
@@ -169,8 +188,10 @@ const PaymentPage = () => {
   // Handle callback from Midtrans
   const handlePaymentCallback = async (result) => {
     try {
+      console.log('Payment result:', result);
+      
       // Send payment result to backend
-      const response = await fetch('http://localhost:5000/api/payments/create', {
+      const response = await fetch('http://localhost:5000/api/payment/create', {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
@@ -184,9 +205,20 @@ const PaymentPage = () => {
 
       if (!response.ok) throw new Error('Failed to record payment');
       
-      alert('Payment processed successfully!');
+      const paymentData = await response.json();
+      
+      if (result.transaction_status === 'settlement' || 
+          (result.transaction_status === 'capture' && result.fraud_status === 'accept')) {
+        alert('Payment successful!');
+      } else if (result.transaction_status === 'pending') {
+        alert('Payment is pending. Please complete the payment process.');
+      } else {
+        alert('Payment status: ' + result.transaction_status);
+      }
+      
       router.push(`/orders/${orderId}`);
     } catch (err) {
+      console.error('Payment callback error:', err);
       setError(err.message);
     } finally {
       setProcessing(false);

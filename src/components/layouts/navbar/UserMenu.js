@@ -40,7 +40,7 @@ export default function UserMenu({ user }) {
   
   const handleLogout = async () => {
     await logOut();
-    router.push("/");
+    router.push("/auth/login");
   };
   
   // Modified handleDeleteAccount function for UserMenu.js
@@ -60,7 +60,7 @@ export default function UserMenu({ user }) {
         setShowDeleteConfirm(false);
         setIsSettingsOpen(false);
         await logOut();
-        router.push("/");
+        router.push("/auth/login");
       } else {
         const error = await response.json();
         console.error("Failed to delete account:", error);
