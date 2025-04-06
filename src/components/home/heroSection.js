@@ -1,226 +1,154 @@
-"use client"
 
-import { useEffect, useRef, useState } from "react"
-import { motion, useMotionValue, useTransform, useSpring, AnimatePresence } from "framer-motion"
-import { Button } from "@/components/ui/button"
-import ModelViewer from "../models/ModelViewer"
-import dynamic from "next/dynamic"
+import React from 'react';
+import Image from 'next/image';
+import { motion } from 'framer-motion';
+import { ArrowRight, Play } from 'lucide-react';
+import { getAllUsers } from '@/hooks/getAlluser';
+import { Avatar, AvatarImage , AvatarFallback} from '@/components/ui/avatar';
 
-// Dynamically import the ModelViewer with no SSR to prevent hydration issues
-// const ModelViewer = dynamic(() => import("./models/ModelViewer"), { ssr: false })
-
-export default function HeroSection() {
-  const [isHovered, setIsHovered] = useState(false)
-  const [windowSize, setWindowSize] = useState({ width: 0, height: 0 })
-  const mouseX = useMotionValue(0)
-  const mouseY = useMotionValue(0)
-  
-  const modelRef = useRef(null)
-
-  // Initialize window size safely for Next.js
-  useEffect(() => {
-    // Set initial window size after component mounts
-    setWindowSize({
-      width: window.innerWidth,
-      height: window.innerHeight,
-    })
-
-    // Set up resize listener
-    const handleResize = () => {
-      setWindowSize({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      })
+const HeroSection = () => {
+  // Fetching users data
+  const [users, setData] = React.useState([]);
+  const getUsers = async () => {
+    try {
+      const users = await getAllUsers();
+      setData(users);
+    } catch (error) {
+      console.error('Error fetching users:', error);
     }
-
-    window.addEventListener("resize", handleResize)
-    return () => window.removeEventListener("resize", handleResize)
-  }, [])
-
-  // Calculate rotation based on mouse position (after window size is known)
-  const rotateY = useTransform(mouseX, [0, windowSize.width || 1], [2, -2])
-  const rotateX = useTransform(mouseY, [0, windowSize.height || 1], [-1, 1])
-
-  // Add spring physics for smoother transitions
-  const springRotateX = useSpring(rotateX, { stiffness: 100, damping: 20 })
-  const springRotateY = useSpring(rotateY, { stiffness: 100, damping: 20 })
-
-  useEffect(() => {
-    const handleMouseMove = (event) => {
-      mouseX.set(event.clientX)
-      mouseY.set(event.clientY)
-    }
-
-    window.addEventListener("mousemove", handleMouseMove)
-
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove)
-    }
-  }, [mouseX, mouseY])
-
-  // Variants for staggered animations
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        when: "beforeChildren",
-        staggerChildren: 0.1,
-      },
-    },
-  }
-
-  const itemVariants = {
-    hidden: {
-      opacity: 0,
-      y: 20,
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.5 },
-    },
-  }
-
-  const featureVariants = {
-    hidden: {
-      opacity: 0,
-      x: -30,
-    },
-    visible: (index) => ({
-      opacity: 1,
-      x: 0,
-      transition: {
-        duration: 0.5,
-        delay: index * 0.2,
-      },
-    }),
-  }
-
-  const modelContainerVariants = {
-    hidden: {
-      opacity: 0,
-      scale: 0.9,
-    },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: {
-        duration: 0.8,
-        delay: 0.3,
-      },
-    },
-  }
+  };
+  React.useEffect(() => {
+    getUsers();
+  }, []);
 
   return (
-    <section className="w-full overflow-hidden bg-white py-16 md:py-24">
-      <motion.div className="container mx-auto px-4" initial="hidden" animate="visible" variants={containerVariants}>
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:min-h-[600px]">
-          {/* Left Content */}
-          <motion.div
-            className="flex flex-col justify-center rounded-2xl bg-white p-6 shadow-sm"
-            variants={itemVariants}
+    <section className="overflow-hidden flex items-center py-16 md:py-24">
+      {/* Background Image with Next.js Image */}
+      <div className="">
+        <Image
+          src="https://public.readdy.ai/ai/img_res/d5c77385025fdf9445e8440af65bb749.jpg"
+          alt="Design Studio"
+          layout="fill"
+          objectFit="cover"
+          objectPosition="center"
+          priority
+          placeholder="blur"
+          blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZTJlOGYwIi8+PC9zdmc+"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-white via-white/90 to-transparent md:to-white/20"></div>
+      </div>
+
+      {/* Animated decorative elements - hidden on small screens */}
+      <motion.div 
+        className="absolute top-1/4 right-1/4 w-32 h-32 md:w-64 md:h-64 rounded-full bg-indigo-500/10 z-0 hidden sm:block"
+        initial={{ scale: 0, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 1.5, delay: 0.5 }}
+      />
+      <motion.div 
+        className="absolute bottom-1/3 right-1/3 w-16 h-16 md:w-32 md:h-32 rounded-full bg-pink-500/10 z-0 hidden sm:block"
+        initial={{ scale: 0, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 1.5, delay: 0.8 }}
+      />
+
+      {/* Content */}
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <motion.div 
+          className="max-w-xl lg:max-w-2xl"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          <motion.div 
+            className="inline-block mb-4 md:mb-6 bg-indigo-100 text-indigo-600 px-3 py-1 md:px-4 rounded-full font-medium text-xs md:text-sm"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
           >
-           <motion.h1
-            className="text-4xl font-extrabold leading-tight text-[#1a1f36] md:text-5xl lg:text-6xl tracking-wide"
-            variants={itemVariants}
+            Creative Design Studio
+          </motion.div>
+          
+          <motion.h1 
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 md:mb-6 leading-tight"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
           >
-            Introducing <span className="text-blue-700">TIF Design</span>  
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-500">
-              : Elevate
-            </span>
+            Bringing Your <span className="text-indigo-600">Vision</span> to Life Through Creative Design
           </motion.h1>
-
+          
           <motion.p 
-            className="mt-4 text-lg text-gray-700 max-w-2xl mx-auto leading-relaxed"
-            variants={itemVariants}
+            className="text-base md:text-lg lg:text-xl text-gray-700 mb-6 md:mb-10 leading-relaxed"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
           >
-            At <span className="font-semibold text-blue-700">TIF Design</span>, we are passionate about  
-            <span className="text-indigo-600 font-medium"> crafting exceptional user experiences.</span>
+            TIF Design specializes in creating stunning visual solutions for
+            businesses and individuals. From branding to UI/UX, we transform
+            ideas into impactful designs that captivate and convert.
           </motion.p>
-
-
-            <motion.div className="relative mt-8 inline-block" variants={itemVariants}>
-              <Button
-                className="relative rounded-full bg-[#1a1f36] px-8 py-6 text-base font-medium text-white transition-transform duration-300 hover:bg-[#2a2f46]"
-                onMouseEnter={() => setIsHovered(true)}
-                onMouseLeave={() => setIsHovered(false)}
-              >
-                <span className="relative z-10">Explore Our Services</span>
-                <AnimatePresence>
-                  {isHovered && (
-                    <motion.span
-                      className="absolute inset-0 rounded-full bg-[#4BB4DE]"
-                      initial={{ opacity: 0.3, scale: 0.8 }}
-                      animate={{ opacity: 0, scale: 1.5 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.8, repeat: Number.POSITIVE_INFINITY }}
+          
+          <motion.div 
+            className="flex flex-col sm:flex-row gap-3 sm:gap-4 md:gap-6"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+          >
+            <motion.button
+              className="px-6 py-3 md:px-8 md:py-4 bg-indigo-600 text-white font-medium rounded-full flex items-center justify-center transition-all duration-300 hover:bg-indigo-700 hover:shadow-lg shadow-md group"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Explore Our Work
+              <ArrowRight className="ml-2 group-hover:ml-3 transition-all duration-300" size={18} />
+            </motion.button>
+            
+            <motion.button
+              className="px-6 py-3 md:px-8 md:py-4 border-2 border-indigo-600 text-indigo-600 font-medium rounded-full flex items-center justify-center transition-all duration-300 hover:bg-indigo-50 group"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Play size={18} className="mr-2" />
+              Watch Showreel
+            </motion.button>
+          </motion.div>
+          
+          <motion.div 
+            className="mt-8 md:mt-12 flex flex-wrap items-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 1 }}
+          >
+            <div className="flex -space-x-2 md:-space-x-3">
+              {users.slice(0, 3).map((user) => (
+                  <Avatar key={user._id} className="w-10 h-10 md:w-12 md:h-12 border-2 border-white">
+                    <AvatarImage
+                      src={user.profilePhoto || "/avatar-placeholder.png"}
+                      alt={`Client ${user.name}`}
+                      className="w-full h-full object-cover"
                     />
-                  )}
-                </AnimatePresence>
-              </Button>
-            </motion.div>
-
-            <div className="mt-16 space-y-8">
-              {[
-                {
-                  title: "Unparalleled Expertise",
-                  description: "Empowering Brands to Thrive",
-                  iconBg: "#4BB4DE",
-                },
-                {
-                  title: "Innovative Solutions",
-                  description: "Delivering Excellence",
-                  iconBg: "#1a1f36",
-                },
-              ].map((feature, index) => (
-                <motion.div
-                  key={feature.title}
-                  className="flex items-start gap-4 transition-transform duration-300 hover:translate-x-1"
-                  custom={index}
-                  variants={featureVariants}
-                  whileHover={{ x: 8, transition: { duration: 0.2 } }}
-                >
-                  <motion.div
-                    className="flex h-16 w-16 items-center justify-center rounded-full transition-transform duration-300"
-                    style={{ backgroundColor: feature.iconBg }}
-                    whileHover={{
-                      scale: 1.1,
-                      boxShadow: "0 10px 15px rgba(0,0,0,0.1)",
-                    }}
-                  >
-                    <span className="sr-only">{feature.title} icon</span>
-                  </motion.div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-[#1a1f36]">{feature.title}</h3>
-                    <p className="text-gray-600">{feature.description}</p>
-                  </div>
-                </motion.div>
-              ))}
+                    <AvatarFallback>
+                      {user.name ? user.name.substring(0, 2).toUpperCase() : 'UN'}
+                    </AvatarFallback>
+                  </Avatar>
+                ))}
+            </div>
+            <div className="ml-3 md:ml-4">
+              <p className="text-xs md:text-sm text-gray-600">Trusted by <span className="font-bold text-indigo-600">200+</span> clients worldwide</p>
             </div>
           </motion.div>
-
-          {/* Right 3D Model */}
-          <motion.div
-            className="flex items-center justify-center rounded-2xl bg-gray-50 p-6 shadow-md"
-            variants={modelContainerVariants}
-          >
-            <motion.div
-              className="relative h-[500px] w-full"
-              ref={modelRef}
-              style={{
-                transformStyle: "preserve-3d",
-                perspectiveOrigin: "center center",
-                perspective: 1000,
-                transform: `rotateX(${springRotateX}deg) rotateY(${springRotateY}deg)`,
-              }}
-            >
-              <ModelViewer path={"./models/model.glb"}/>
-            </motion.div>
-          </motion.div>
-        </div>
-      </motion.div>
+        </motion.div>
+      </div>
+      
+      {/* Bottom curve decoration */}
+      <div className="absolute bottom-0 left-0 w-full overflow-hidden z-1">
+        <svg className="w-full h-8 sm:h-12 md:h-16 text-gray-50 fill-current" viewBox="0 0 1200 120" preserveAspectRatio="none">
+          <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z"></path>
+        </svg>
+      </div>
     </section>
-  )
-}
+  );
+};
 
+export default HeroSection;

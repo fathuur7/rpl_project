@@ -1,15 +1,15 @@
 "use client"
 
-import React, { useEffect, useRef, useState } from "react"
-import { motion, useMotionValue, useTransform, useSpring } from "framer-motion"
-import ModelViewer from "../models/ModelViewer"
+import React, { useEffect, useRef, useState } from "react";
+import { motion, useMotionValue, useTransform, useSpring } from "framer-motion";
+import ModelViewer from "../models/ModelViewer";
 
-export default function HeroSection() {
+export default function HeroSectionLeft() {
   const [windowSize, setWindowSize] = useState({ width: 0, height: 0 })
   const mouseX = useMotionValue(0)
   const mouseY = useMotionValue(0)
   const modelRef = useRef(null)
-
+  
   // Window resize and mouse tracking logic
   useEffect(() => {
     // Set initial window size
@@ -17,7 +17,7 @@ export default function HeroSection() {
       width: window.innerWidth,
       height: window.innerHeight,
     })
-
+    
     // Resize listener
     const handleResize = () => {
       setWindowSize({

@@ -1,6 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Card, Button } from '@/components/ui'; // Assuming these components exist in your project
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import Image from 'next/image'; // Importing Image from Next.js
 
 const ServicesSection = () => {
   // Animation variants
@@ -90,9 +92,11 @@ const ServicesSection = () => {
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.3 }}
               >
-                <img
-                  src="/api/placeholder/400/320"
-                  alt="Graphic Design"
+                <Image
+                  width={400}
+                  height={320}
+                  src="https://public.readdy.ai/ai/img_res/bfa92193209ef703b16cd4d25c0345fa.jpg"
+                  alt="Product Design"
                   className="w-full h-full object-cover object-top"
                 />
               </motion.div>
@@ -148,9 +152,11 @@ const ServicesSection = () => {
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.3 }}
               >
-                <img
-                  src="/api/placeholder/400/320"
-                  alt="Product Design"
+                <Image
+                  width={400}
+                  height={320}
+                  src="https://public.readdy.ai/ai/img_res/88efaa3ee0c86290961589d16de2384d.jpg"
+                  alt="UI/UX Design"
                   className="w-full h-full object-cover object-top"
                 />
               </motion.div>
@@ -206,9 +212,11 @@ const ServicesSection = () => {
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.3 }}
               >
-                <img
-                  src="/api/placeholder/400/320"
-                  alt="UI/UX Design"
+                <Image
+                  width={400}
+                  height={320}
+                  src="https://public.readdy.ai/ai/img_res/6a849140c004533eb1135e81550150ec.jpg"
+                  alt="Individual Clients"
                   className="w-full h-full object-cover object-top"
                 />
               </motion.div>

@@ -3,103 +3,95 @@ import { motion } from 'framer-motion';
 import { Quote, Star, CheckCircle } from 'lucide-react';
 import Image from 'next/image';
 
-const TestimonialCard = ({ name, role, quote, avatar, achievements }) => (
-  <motion.div 
-    whileHover={{ 
-      scale: 1.05, 
-      boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)' 
-    }}
-    className="bg-white p-6 rounded-2xl shadow-xl border-2 border-blue-50 transition-all duration-300 hover:border-blue-100 group"
-  >
-    <div className="flex items-start mb-5">
-      <Quote className="text-blue-500 mr-4 w-10 h-10 opacity-20 group-hover:opacity-40 transition-opacity" />
-      <p className="text-gray-700 italic text-lg flex-grow leading-relaxed">{quote}</p>
-    </div>
-    <div className="flex items-center border-t border-gray-100 pt-4">
-      <Image 
-        src={avatar} 
-        alt={name} 
-        className="w-14 h-14 rounded-full mr-5 object-cover border-2 border-blue-100 transition-transform group-hover:rotate-6"
-        width={56}
-        height={56}
-      />
-      <div className="flex-grow">
-        <h4 className="font-bold text-gray-800 text-lg">{name}</h4>
-        <p className="text-sm text-gray-500 mb-2">{role}</p>
-        <div className="flex items-center">
-          <div className="flex text-yellow-400 mr-3">
-            {[...Array(5)].map((_, i) => (
-              <Star key={i} className="w-5 h-5 fill-current" />
-            ))}
+const TestimonialCard = ({ quote, author, company, avatar, achievements }) => {
+  return (
+    <motion.div 
+      className="bg-white rounded-lg shadow-md p-6 mb-4"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <div className="flex items-start mb-4">
+        <Quote className="text-blue-500 mr-2 flex-shrink-0 mt-1" size={24} />
+        <p className="text-gray-700 italic">{quote}</p>
+      </div>
+      
+      <div className="flex items-center mt-4">
+        {avatar && (
+          <div className="mr-4">
+            <div className="w-12 h-12 rounded-full overflow-hidden">
+              <Image src={avatar} alt={`${author} avatar`}
+              width={48} height={48} layout="responsive" objectFit="cover"
+              className="w-full h-full object-cover" />
+            </div>
           </div>
-          {achievements && (
-            <div className="flex items-center text-green-500 text-sm">
-              <CheckCircle className="w-4 h-4 mr-1" />
-              <span>{achievements}</span>
+        )}
+        
+        <div>
+          <h4 className="font-bold text-gray-900">{author}</h4>
+          <p className="text-gray-600">{company}</p>
+          
+          {achievements && achievements.length > 0 && (
+            <div className="flex items-center mt-2">
+              <CheckCircle size={14} className="text-green-500 mr-1" />
+              <span className="text-sm text-gray-500">
+                {achievements.join(', ')}
+              </span>
             </div>
           )}
         </div>
       </div>
-    </div>
-  </motion.div>
-);
+    </motion.div>
+  );
+};
 
-export default function TestimonialSection() {
+const TestimonialsSection = () => {
   const testimonials = [
     {
-      name: "Sarah Johnson",
-      role: "CEO, Tech Innovations",
-      quote: "Their design transformed our brand identity completely. Absolutely incredible work that exceeded all our expectations!",
-      avatar: "/avatars/sarah.jpg",
-      achievements: "40% Growth"
+      quote: "Working with TIF Design transformed our brand completely. The team understood our vision perfectly.",
+      author: "Sarah Johnson",
+      company: "Acme Corp",
+      avatar: "/images/testimonials/sarah.jpg",
+      achievements: ["10x ROI", "Award-winning design"]
     },
     {
-      name: "Michael Chen",
-      role: "Startup Founder",
-      quote: "Exceptional creativity and professionalism. They truly understand design's power and how it can drive business success.",
-      avatar: "/avatars/michael.jpg",
-      achievements: "Award Winner"
-    },
-    {
-      name: "Emily Rodriguez",
-      role: "Marketing Director",
-      quote: "Our website's new design has increased user engagement dramatically. A game-changing partnership that delivers results!",
-      avatar: "/avatars/emily.jpg",
-      achievements: "Top Performer"
+      quote: "The attention to detail and creative solutions provided by TIF Design exceeded our expectations.",
+      author: "Michael Chen",
+      company: "TechStart Inc.",
+      avatar: "/images/testimonials/michael.jpg",
+      achievements: ["Increased conversions by 45%"]
     }
   ];
 
   return (
-    <section className="py-20 md:py-24 bg-gray-50 overflow-hidden">
+    <section className="py-12 bg-gray-50">
       <div className="container mx-auto px-4">
-        <motion.div 
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <motion.div 
-            initial={{ scale: 0.8 }}
-            whileInView={{ scale: 1 }}
-            className="inline-block px-4 py-2 mb-6 bg-blue-100 text-blue-800 rounded-full text-sm font-semibold tracking-wide uppercase"
+        <div className="text-center mb-10">
+          <motion.h2 
+            className="text-3xl font-bold text-gray-800 mb-2"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
           >
-            Client Success Stories
-          </motion.div>
-          <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-5 tracking-tight leading-tight">
-            Testimonials That <span className="text-blue-600">Speak Volumes</span>
-          </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Discover how our innovative design solutions have empowered businesses to break through barriers and achieve remarkable success.
-          </p>
-        </motion.div>
-
-        <div className="grid md:grid-cols-3 gap-10">
+            What Our Clients Say
+          </motion.h2>
+          <motion.p 
+            className="text-gray-600 max-w-2xl mx-auto"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+          >
+            Don&apos;t just take our word for it. Here&apos;s what our clients have to say about working with TIF Design.
+          </motion.p>
+        </div>
+        
+        <div className="grid md:grid-cols-2 gap-6">
           {testimonials.map((testimonial, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.2 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 + index * 0.1 }}
             >
               <TestimonialCard {...testimonial} />
             </motion.div>
@@ -108,4 +100,6 @@ export default function TestimonialSection() {
       </div>
     </section>
   );
-}
+};
+
+export default TestimonialsSection;

@@ -4,7 +4,7 @@ export default async function logOut() {
       method: "POST",
       credentials: "include", // Pastikan cookie dikirim dalam request
     });
-
+    
     if (response.ok) {
       console.log("Logout successful");
       localStorage.removeItem("user");
