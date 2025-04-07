@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+import { toast } from 'sonner'; // Assuming you're using react-hot-toast for notifications
 
 const PaymentPage = () => {
   const params = useParams();
@@ -10,10 +11,11 @@ const PaymentPage = () => {
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [paymentMethod, setPaymentMethod] = useState('');
   const [processing, setProcessing] = useState(false);
   const [snapToken, setSnapToken] = useState(null);
   const [clientKey, setClientKey] = useState(null);
+  const [isSnapOpen, setIsSnapOpen] = useState(false);
+  const [scriptLoaded, setScriptLoaded] = useState(false);
 
   useEffect(() => {
     if (!orderId) return;
@@ -46,250 +48,261 @@ const PaymentPage = () => {
         setError(err.message);
         setLoading(false);
       });
-  }, [orderId]);
+  }, [orderId, router]);
   
   // Function to get Midtrans token
   const initiateMidtransToken = async (orderData) => {
     try {
-      const response = await fetch('http://localhost:5000/api/payment/generate-token', {
+      setProcessing(true);
+      
+      const response = await fetch('http://localhost:5000/api/payments/generate-token', {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
         credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           orderId: orderData._id,
           amount: orderData.price,
+          // Optional additional details if needed
           itemDetails: [{
-            id: orderData.service._id,
+            id: orderData.service?._id || 'service-item',
             price: orderData.price,
             quantity: 1,
-            name: orderData.service.title
-          }],
-          customerDetails: {
-            firstName: orderData.client.name?.split(' ')[0] || 'Customer',
-            lastName: orderData.client.name?.split(' ').slice(1).join(' ') || '',
-            email: orderData.client.email
-          }
+            name: orderData.service?.title || 'Design Service'
+          }]
         })
       });
 
-      if (!response.ok) throw new Error('Failed to generate payment token');
+      if (!response.ok) {
+        throw new Error('Failed to generate payment token');
+      }
+
+      const data = await response.json();
+      setSnapToken(data.token);
+      setClientKey(data.client_key);
       
-      const tokenData = await response.json();
-      setSnapToken(tokenData.token);
-      setClientKey(tokenData.client_key);
-      
-      // Load Midtrans Snap JS when token is received
-      loadMidtransScript(tokenData.client_key);
+      // Load Midtrans Snap JS when we have the token
+      loadMidtransScript(data.client_key);
     } catch (err) {
-      setError('Payment initialization failed: ' + err.message);
+      console.error('Error generating payment token:', err);
+      setError(err.message);
+      toast.error('Failed to initialize payment system');
+    } finally {
+      setProcessing(false);
     }
   };
-  
-  // Load Midtrans Snap JS
+
+  // Function to load Midtrans Snap JS
   const loadMidtransScript = (clientKey) => {
-    const midtransScriptUrl = 'https://app.sandbox.midtrans.com/snap/snap.js';
-    
     // Check if script is already loaded
-    if (!document.querySelector(`script[src="${midtransScriptUrl}"]`)) {
-      const script = document.createElement('script');
-      script.src = midtransScriptUrl;
-      script.setAttribute('data-client-key', clientKey);
-      script.async = true;
-      
-      script.onload = () => {
-        console.log('Midtrans Snap script loaded successfully');
-      };
-      
-      script.onerror = () => {
-        setError('Failed to load Midtrans payment script');
-      };
-      
-      document.body.appendChild(script);
+    if (document.getElementById('midtrans-script')) {
+      setScriptLoaded(true);
+      return;
     }
+
+    // Create script element
+    const script = document.createElement('script');
+    script.id = 'midtrans-script';
+    script.src = 'https://app.sandbox.midtrans.com/snap/snap.js';
+    script.setAttribute('data-client-key', clientKey);
+    
+    script.onload = () => {
+      console.log('Midtrans script loaded successfully');
+      setScriptLoaded(true);
+    };
+    
+    document.body.appendChild(script);
   };
 
-  const handlePaymentMethodChange = (e) => {
-    setPaymentMethod(e.target.value);
-  };
-
-  const processPayment = async () => {
-    if (snapToken) {
-      // Use Midtrans Snap for payment
-      setProcessing(true);
-      
-      try {
-        // Check if snap is available
-        if (window.snap) {
-          window.snap.pay(snapToken, {
-            onSuccess: function(result) {
-              handlePaymentCallback(result);
-            },
-            onPending: function(result) {
-              handlePaymentCallback(result);
-            },
-            onError: function(result) {
-              console.error('Payment error:', result);
-              setError('Payment failed. Please try again.');
-              setProcessing(false);
-            },
-            onClose: function() {
-              console.log('Customer closed the payment window');
-              setProcessing(false);
-            }
-          });
-        } else {
-          throw new Error('Midtrans Snap is not loaded properly');
-        }
-      } catch (err) {
-        console.error('Snap pay error:', err);
-        setError('Payment processing failed: ' + err.message);
-        setProcessing(false);
-      }
-    } else {
-      // Fallback to direct API call if Midtrans is not available
-      if (!paymentMethod) {
-        setError('Please select a payment method');
-        return;
-      }
-
-      setProcessing(true);
-      try {
-        const response = await fetch('http://localhost:5000/api/payment/create', {
-          method: 'POST',
-          credentials: 'include',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            orderId: order._id,
-            amount: order.price,
-            paymentMethod,
-            midtransResponse: {
-              transaction_status: 'settlement',
-              transaction_id: `TRX-${Date.now()}`,
-              order_id: `ORDER-${order._id}-${Date.now()}`,
-              payment_type: paymentMethod,
-              gross_amount: order.price
-            }
-          })
-        });
-
-        if (!response.ok) throw new Error('Payment processing failed. Please try again.');
-
-        const paymentData = await response.json();
-        alert('Payment successful!');
-        router.push(`/orders/${orderId}`);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setProcessing(false);
-      }
+  // Function to open Midtrans Snap
+  const openMidtransSnap = () => {
+    if (!window.snap || !snapToken || isSnapOpen) {
+      console.log('Cannot open Snap:', {
+        snapExists: !!window.snap,
+        tokenExists: !!snapToken,
+        isAlreadyOpen: isSnapOpen
+      });
+      return;
     }
+    
+    setIsSnapOpen(true);
+    
+    window.snap.pay(snapToken, {
+      onSuccess: function(result) {
+        setIsSnapOpen(false);
+        handlePaymentSuccess(result);
+      },
+      onPending: function(result) {
+        setIsSnapOpen(false);
+        handlePaymentPending(result);
+      },
+      onError: function(result) {
+        setIsSnapOpen(false);
+        handlePaymentError(result);
+      },
+      onClose: function() {
+        setIsSnapOpen(false);
+        toast.info('Payment window closed');
+      }
+    });
   };
-  
-  // Handle callback from Midtrans
-  const handlePaymentCallback = async (result) => {
+
+  // Handle successful payment
+  const handlePaymentSuccess = async (result) => {
     try {
-      console.log('Payment result:', result);
-      
-      // Send payment result to backend
-      const response = await fetch('http://localhost:5000/api/payment/create', {
+      // Create payment record in our system
+      await fetch('http://localhost:5000/api/payments/create', {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
         credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          orderId: order._id,
+          orderId: orderId,
           amount: order.price,
           paymentMethod: result.payment_type,
           midtransResponse: result
         })
       });
 
-      if (!response.ok) throw new Error('Failed to record payment');
+      toast.success('Payment successful!');
       
-      const paymentData = await response.json();
-      
-      if (result.transaction_status === 'settlement' || 
-          (result.transaction_status === 'capture' && result.fraud_status === 'accept')) {
-        alert('Payment successful!');
-      } else if (result.transaction_status === 'pending') {
-        alert('Payment is pending. Please complete the payment process.');
-      } else {
-        alert('Payment status: ' + result.transaction_status);
-      }
-      
-      router.push(`/orders/${orderId}`);
+      // Refresh order data or redirect to order details
+      setTimeout(() => {
+        router.push(`/orders/${orderId}`);
+      }, 1500);
     } catch (err) {
-      console.error('Payment callback error:', err);
-      setError(err.message);
-    } finally {
-      setProcessing(false);
+      console.error('Error recording payment:', err);
+      toast.error('Payment was processed but failed to update our records');
     }
   };
 
-  if (loading) return <div className="container mt-5"><h3>Loading order details...</h3></div>;
-  if (!order) return <div className="container mt-5"><h3>Order not found</h3></div>;
+  // Handle pending payment
+  const handlePaymentPending = (result) => {
+    toast.info('Payment is pending. Please complete the payment process.');
+    console.log('Payment pending:', result);
+  };
+
+  // Handle payment error
+  const handlePaymentError = (result) => {
+    toast.error('Payment failed. Please try again.');
+    console.error('Payment error:', result);
+  };
+
+  // Manually trigger payment
+  const handlePaymentButtonClick = () => {
+    if (scriptLoaded && snapToken && !isSnapOpen) {
+      openMidtransSnap();
+    } else if (!scriptLoaded) {
+      toast.error('Payment system is still loading. Please wait.');
+    } else if (isSnapOpen) {
+      toast.info('Payment window is already open');
+    } else {
+      toast.error('Payment system is not ready yet');
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="bg-red-50 border border-red-200 rounded-lg p-6 max-w-md">
+          <h2 className="text-xl font-semibold text-red-700 mb-3">Error</h2>
+          <p className="text-red-600">{error}</p>
+          <button 
+            onClick={() => router.push('/notif')}
+            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          >
+            Return to notif
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (!order) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6 max-w-md">
+          <h2 className="text-xl font-semibold text-yellow-700 mb-3">Order Not Found</h2>
+          <p className="text-yellow-600">The requested order could not be found.</p>
+          <button 
+            onClick={() => router.push('/notif')}
+            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          >
+            Return to notif
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // If order is already paid
+  if (order.isPaid) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="bg-green-50 border border-green-200 rounded-lg p-6 max-w-md">
+          <h2 className="text-xl font-semibold text-green-700 mb-3">Payment Completed</h2>
+          <p className="text-green-600">This order has already been paid.</p>
+          <button 
+            onClick={() => router.push(`/orders/${orderId}`)}
+            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          >
+            View Order Details
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="container mt-5">
-      <div className="row">
-        <div className="col-md-8 offset-md-2">
-          <div className="card">
-            <div className="card-header bg-primary text-white">
-              <h4>Complete Your Payment</h4>
-            </div>
-            <div className="card-body">
-              <div className="mb-4">
-                <h5>Order Details</h5>
-                <p><strong>Order ID:</strong> {order._id}</p>
-                <p><strong>Service:</strong> {order.service.title}</p>
-                <p><strong>Designer:</strong> {order.designer.name}</p>
-                <p><strong>Amount:</strong> ${order.price.toFixed(2)}</p>
-              </div>
-
-              {order.isPaid ? (
-                <div className="alert alert-success">
-                  <h5>Payment Completed</h5>
-                  <p>This order has already been paid for. Thank you!</p>
-                </div>
-              ) : (
-                <>
-                  {error && <div className="alert alert-danger">{error}</div>}
-                  
-                  {!snapToken ? (
-                    // Show payment method selection if Midtrans token not available
-                    <div className="mb-4">
-                      <h5>Select Payment Method</h5>
-                      {['credit_card', 'gopay', 'bank_transfer', 'shopeepay'].map((method) => (
-                        <div className="form-check" key={method}>
-                          <input 
-                            className="form-check-input" 
-                            type="radio" 
-                            name="paymentMethod" 
-                            value={method}
-                            onChange={handlePaymentMethodChange}
-                          />
-                          <label className="form-check-label">
-                            {method.replace('_', ' ').toUpperCase()}
-                          </label>
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="alert alert-info">
-                      <p>You&apos;ll be redirected to Midtrans secure payment page.</p>
-                    </div>
-                  )}
-
-                  <button 
-                    className="btn btn-success btn-lg btn-block"
-                    onClick={processPayment}
-                    disabled={(!snapToken && !paymentMethod) || processing}
-                  >
-                    {processing ? 'Processing...' : 'Pay Now'}
-                  </button>
-                </>
-              )}
-            </div>
+    <div className="max-w-4xl mx-auto p-6">
+      <h1 className="text-2xl font-bold mb-6">Payment for Order #{order._id}</h1>
+      
+      <div className="bg-white shadow-md rounded-lg p-6 mb-6">
+        <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+          <div>
+            <p className="text-gray-600">Service:</p>
+            <p className="font-medium">{order.service?.title || 'Design Service'}</p>
           </div>
+          <div>
+            <p className="text-gray-600">Price:</p>
+            <p className="font-medium text-xl">${order.price.toFixed(2)}</p>
+          </div>
+        </div>
+      </div>
+      
+      <div className="bg-white shadow-md rounded-lg p-6">
+        <h2 className="text-xl font-semibold mb-4">Complete Payment</h2>
+        <p className="mb-4">
+          Click the button below to proceed with your payment using our secure payment gateway.
+        </p>
+        
+        <button
+          onClick={handlePaymentButtonClick}
+          disabled={processing || !snapToken || !scriptLoaded || isSnapOpen}
+          className={`w-full py-3 rounded-lg text-white font-medium ${
+            processing || !snapToken || !scriptLoaded || isSnapOpen
+              ? 'bg-gray-400 cursor-not-allowed' 
+              : 'bg-blue-600 hover:bg-blue-700'
+          }`}
+        >
+          {processing ? 'Preparing Payment...' : isSnapOpen ? 'Payment Window Open' : 'Pay Now'}
+        </button>
+        
+        <div className="mt-4 text-sm text-gray-500">
+          <p>
+            Your payment is processed securely through Midtrans. We do not store your payment details.
+          </p>
         </div>
       </div>
     </div>

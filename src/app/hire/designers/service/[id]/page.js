@@ -288,20 +288,16 @@ const DetailPage = () => {
           </CardContent>
           
           <CardFooter className="bg-gray-50 flex flex-wrap justify-end gap-3 p-4">
-            <Button variant="outline">Contact Client</Button>
-            <Button>Request Service</Button>
-            {user._id === (serviceData.client?._id || serviceData.userId) && (
-              <>
-                <Button onClick={handleEdit} variant="secondary">Edit</Button>
-                <Button 
-                  onClick={() => setShowDeleteDialog(true)} 
-                  variant="destructive"
-                  disabled={isDeleting}
-                >
-                  {isDeleting ? "Deleting..." : "Delete"}
-                </Button>
-              </>
-            )}
+           
+              <Button onClick={handleEdit} variant="secondary">Edit</Button>
+              <Button 
+                onClick={() => setShowDeleteDialog(true)} 
+                variant="destructive"
+                disabled={isDeleting}
+              >
+                {isDeleting ? "Deleting..." : "Delete"}
+              </Button>
+          
           </CardFooter>
         </Card>
       ) : (

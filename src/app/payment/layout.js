@@ -1,7 +1,7 @@
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Toaster } from "@/components/ui/sonner"
 
-export default function HireLayout({ children }) {
+export default function PaymentLayout({ children }) {
   return (
       <ThemeProvider
           attribute="class"
@@ -29,20 +29,25 @@ export default function HireLayout({ children }) {
             {/* Main content area with centered layout */}
             <main 
               id="main-content" 
-              className="text-gray-900"
+              className="flex-grow flex items-center justify-center p-4 sm:p-6 lg:p-8"
             >
-             
+              <div 
+                className="w-full max-w-md relative z-10 
+                transition-all duration-300 
+                hover:scale-[1.01] 
+                hover:shadow-2xl"
+              >
                 {children}
-       
+              </div>
             </main>
 
             {/* Footer */}
-            {/* <footer 
+            <footer 
               className="py-4 text-center text-xs text-gray-500 
               dark:text-gray-400 absolute bottom-0 w-full"
             >
               © {new Date().getFullYear()} Your Company. All rights reserved.
-            </footer> */}
+            </footer>
           </div>
 
           {/* Toaster for notifications */}

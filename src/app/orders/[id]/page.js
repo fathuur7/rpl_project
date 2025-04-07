@@ -224,12 +224,30 @@ export default function OrderDetail() {
             )}
             
             {/* Message button is always available */}
-            <Link 
-              href={`/messages?order=${order._id}`}
-              className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded"
+            <Link
+              href={`https://wa.me/6285815245639?text=${encodeURIComponent(
+                `Hello ${order.designer ? order.designer.name : 'Designer'},\n\n` +
+                `Here are the details of my order:\n` +
+                `Order ID: ${order._id}\n` +
+                `Client: ${order.client ? order.client.name : 'Client'}\n` +
+                `Service: ${order.service ? order.service.title : 'Service title not available'}\n` +
+                `Description: ${order.service ? order.service.description : 'Service description not available'}\n` +
+                `Designer: ${order.designer ? order.designer.name : 'Designer'}\n` +
+                `Price: Rp${order.price}\n` +
+                `Created On: ${new Date(order.createdAt).toLocaleDateString()}\n` +
+                `Last Updated: ${new Date(order.updatedAt).toLocaleDateString()}\n` +
+                `Order Status: ${order.status}\n` +
+                `Payment Status: ${order.isPaid ? 'Paid' : 'Unpaid'}\n` +
+                `Number of Revisions: ${order.revisionCount}\n\n` +
+                `Please confirm or continue the discussion.`
+              )}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded"
             >
-              Message {order.client ? order.client.name : 'Client'}
+              WhatsApp {order.designer ? order.designer.name : 'Designer'}
             </Link>
+
           </div>
         </div>
       </div>

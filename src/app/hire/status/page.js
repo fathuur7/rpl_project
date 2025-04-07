@@ -2,22 +2,24 @@
 
 'use client';
 import { useState, useEffect } from 'react';
-import { CardAction,Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { CardAction, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Loader2 } from 'lucide-react';
+import useCurrentUser from '@/hooks/useCurrentUser';
 
 export default function StatusPage() {
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { user, userLoading, refetchUser } = useCurrentUser();
 
   useEffect(() => {
     // Fetch services from your API
     const fetchServices = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/services',{
+        const response = await fetch(`http://localhost:5000/api/services`, {
           credentials: 'include',
         });
         if (!response.ok) {
@@ -112,9 +114,13 @@ export default function StatusPage() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
+                  <div className="flex items-center space-x-2">
+                    <p className="text-sm font-medium text-gray-500">Client:</p>
+                    <p className="text-sm truncate">{user.name}</p>
+                  </div>
                   <div>
                     <p className="text-sm font-medium text-gray-500">Description</p>
-                    <p className="text-sm">{service.description}</p>
+                    <p className="text-sm break-words">{service.description}</p>
                   </div>
                   
                   <div className="grid grid-cols-2 gap-2">
@@ -151,7 +157,7 @@ export default function StatusPage() {
               </CardContent>
               <CardFooter>
                 <CardAction>
-                  <Button asChild>
+                  <Button asChild className="w-full">
                     <Link href={`/hire/designers/service/${service._id}`}>View</Link>
                   </Button>
                 </CardAction>
