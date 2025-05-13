@@ -17,7 +17,7 @@ export default function OrderDetail() {
     if (!id) return;
 
     // Fetch order details
-    fetch(`http://localhost:5000/api/orders/${id}`, {
+    fetch(`http://localhost:5000/api/v1/orders/${id}`, {
       credentials: 'include'
     })
       .then(response => {
@@ -197,24 +197,7 @@ export default function OrderDetail() {
           <h2 className="text-lg font-semibold mb-4">Order Actions</h2>
           
           <div className="flex flex-wrap gap-3">
-            {/* Show different actions based on order status and user role */}
-            {order.status === 'in_progress' && (
-              <>
-                <button 
-                  onClick={requestRevision}
-                  className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded"
-                >
-                  Request Revision
-                </button>
-                <button 
-                  onClick={markCompleted}
-                  className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded"
-                >
-                  Mark as Completed
-                </button>
-              </>
-            )}
-            
+      
             {order.status === 'completed' && !order.isPaid && (
               <button 
                 className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"

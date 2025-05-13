@@ -8,6 +8,7 @@ import {
   Bot, 
   Loader2,
   Settings,
+  BotIcon,
   ShoppingBag
 } from 'lucide-react';
 
@@ -149,7 +150,7 @@ export default function SalesBot() {
         whileTap={{ scale: 0.9 }}
         aria-label={isOpen ? "Close Chat" : "Talk to Sales"}
       >
-        {isOpen ? <X size={24} /> : <ShoppingBag size={24} />}
+        {isOpen ? <X size={24} /> : <BotIcon size={24} />}
       </motion.button>
 
       <AnimatePresence>
@@ -163,7 +164,7 @@ export default function SalesBot() {
             {/* Chat Header */}
             <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-4 flex items-center justify-between">
               <div className="flex items-center space-x-3">
-                <ShoppingBag size={24} className="text-white" />
+                <BotIcon size={24} className="text-white" />
                 <div>
                   <h3 className="font-bold text-lg">TIF Design Sales</h3>
                   <p className="text-xs text-white/80">Talk to our product expert</p>
@@ -253,7 +254,7 @@ export default function SalesBot() {
                 >
                   {msg.sender === 'bot' && (
                     <div className="bg-blue-600 p-2 rounded-full shadow-sm">
-                      <ShoppingBag size={16} className="text-white" />
+                      <BotIcon size={16} className="text-white" />
                     </div>
                   )}
                   <div 
@@ -277,7 +278,7 @@ export default function SalesBot() {
               {isLoading && (
                 <div className="flex justify-start items-center space-x-2">
                   <div className="bg-blue-600 p-2 rounded-full shadow-sm">
-                    <ShoppingBag size={16} className="text-white" />
+                    <BotIcon size={16} className="text-white" />
                   </div>
                   <div className="bg-blue-600 px-4 py-2 rounded-2xl border border-blue-700 flex items-center text-white">
                     <Loader2 size={16} className="mr-2 animate-spin text-white" />

@@ -1,6 +1,8 @@
 import { useState, useCallback, useEffect } from 'react';
 import { debugLog } from '@/utils/debugLogger';
 
+const apiUrl = "http://localhost:5000";
+
 export default function useCurrentUser() {
   const [user, setUser] = useState(null);
   const [userLoading, setUserLoading] = useState(true);
@@ -8,8 +10,13 @@ export default function useCurrentUser() {
   const fetchCurrentUser = useCallback(async () => {
     try {
       setUserLoading(true);
-      const response = await fetch('http://localhost:5000/api/auth/me', {
-        credentials: 'include'
+      const response = await fetch(`${apiUrl}/api/v1/auth/me`, {
+        credentials: 'include',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
       });
       
       if (!response.ok) {

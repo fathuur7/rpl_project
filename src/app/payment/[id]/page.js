@@ -21,7 +21,7 @@ const PaymentPage = () => {
     if (!orderId) return;
 
     // Fetch order details
-    fetch(`http://localhost:5000/api/orders/${orderId}`, {
+    fetch(`http://localhost:5000/api/v1/orders/${orderId}`, {
       credentials: 'include'
     })
       .then(response => {
@@ -55,7 +55,7 @@ const PaymentPage = () => {
     try {
       setProcessing(true);
       
-      const response = await fetch('http://localhost:5000/api/payments/generate-token', {
+      const response = await fetch('http://localhost:5000/api/v1/payments/generate-token', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -152,7 +152,7 @@ const PaymentPage = () => {
   const handlePaymentSuccess = async (result) => {
     try {
       // Create payment record in our system
-      await fetch('http://localhost:5000/api/payments/create', {
+      await fetch('http://localhost:5000/api/v1/payments/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

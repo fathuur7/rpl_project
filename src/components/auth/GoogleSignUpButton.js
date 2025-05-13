@@ -2,12 +2,13 @@
 
 import React from "react";
 import { FcGoogle } from "react-icons/fc";
+const base_url = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"; // Ganti dengan URL backend Anda
 
 export default function GoogleSignUpButton() {
   const handleGoogleSignUp = async () => {
     try {
       // Redirect to backend OAuth endpoint
-      window.location.href = 'http://localhost:5000/api/auth/google';
+      window.location.href = `{base_url}/api/v1/auth/google`;
     } catch (error) {
       console.error('Google Sign-In Error:', error);
     }

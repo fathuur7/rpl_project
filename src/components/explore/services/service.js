@@ -15,7 +15,7 @@ export default function Services() {
 
   useEffect(() => {
     // Fetch services with credentials (cookies) included for Passport
-    fetch('http://localhost:5000/api/designer/services', {
+    fetch('http://localhost:5000/api/v1/designer/services', {
       credentials: 'include' // This is important for including cookies with the request
     })
       .then(response => {

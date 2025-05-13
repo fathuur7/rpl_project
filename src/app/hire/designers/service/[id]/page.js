@@ -46,7 +46,7 @@ const DetailPage = () => {
   const handleDeleteConfirm = async () => {
     setIsDeleting(true);
     try {
-      const response = await fetch(`http://localhost:5000/api/services/${id}`, {
+      const response = await fetch(`http://localhost:5000/api/v1/services/${id}`, {
         method: "DELETE",
         credentials: "include",
         headers: {
@@ -78,7 +78,7 @@ const DetailPage = () => {
     const fetchService = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`http://localhost:5000/api/services/${id}`, {
+        const response = await fetch(`http://localhost:5000/api/v1/services/${id}`, {
           credentials: "include"
         });
         

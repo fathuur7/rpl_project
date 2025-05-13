@@ -119,7 +119,7 @@ const HireDesignerPage = () => {
         attachments: formData.attachments, // Base64 encoded files
       };
       
-      const response = await fetch('http://localhost:5000/api/services', {
+      const response = await fetch('http://localhost:5000/api/v1/services', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

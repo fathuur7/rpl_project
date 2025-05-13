@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Layers, PieChart, Users, Activity, Calendar, Settings } from "lucide-react";
+import { Layers, PieChart, Users, Activity, Calendar, Upload, ListOrdered } from "lucide-react";
 
 const Sidebar = () => {
   const pathname = usePathname();
@@ -13,8 +13,7 @@ const Sidebar = () => {
     { icon: <PieChart className="mr-2 h-4 w-4" />, label: "Dashboard", href: "/admin/dashboard" },
     { icon: <Users className="mr-2 h-4 w-4" />, label: "Status", href: "/admin/status" },
     { icon: <Activity className="mr-2 h-4 w-4" />, label: "Category", href: "/admin/category" },
-    { icon: <Calendar className="mr-2 h-4 w-4" />, label: "Schedule", href: "/admin/schedule" },
-    { icon: <Settings className="mr-2 h-4 w-4" />, label: "Settings", href: "/admin/settings" },
+    { icon: <ListOrdered className="mr-2 h-4 w-4" />, label: "Orders", href: "/admin/orders" }
   ];
 
   return (

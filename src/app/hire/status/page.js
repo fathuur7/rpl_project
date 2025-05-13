@@ -19,7 +19,7 @@ export default function StatusPage() {
     // Fetch services from your API
     const fetchServices = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/services`, {
+        const response = await fetch(`http://localhost:5000/api/v1/services`, {
           credentials: 'include',
         });
         if (!response.ok) {

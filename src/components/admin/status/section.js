@@ -11,7 +11,7 @@ const DesignerServiceRequests = () => {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/designer/services', {
+        const response = await fetch('http://localhost:5000/api/v1/designer/services', {
           credentials: 'include'
         });
         if (!response.ok) {
@@ -33,7 +33,7 @@ const DesignerServiceRequests = () => {
   // Frontend - handleCancel function
     const handleCancel = async (serviceId) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/designer/${serviceId}/cancel`, {
+      const response = await fetch(`http://localhost:5000/api/v1/designer/${serviceId}/cancel`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -81,6 +81,12 @@ const DesignerServiceRequests = () => {
     if (filter === 'cancelled') return service.status === 'cancelled';
     return true;
   });
+
+  const handleEmailClick = (clientEmail, serviceTitle, clientName, designerName) => {
+    const subject = `Apology for Late Assignment of Service Request: ${serviceTitle}`;
+    const body = `Dear ${clientName},\n\nI want to start by apologizing for the late assignment of your service request for "${serviceTitle}". I know how important it is to have a designer assigned to your project in a timely manner, and I fell short of that standard.\n\nPlease know that I am fully committed to making it right and delivering high-quality work. I am excited to work on your project and get started as soon as possible.\n\nAs a token of apology, I am willing to offer a compensation of 10% of the total project cost or extend the deadline by 3 days, whichever you prefer. Please let me know your preference by replying to this email.\n\nOnce again, I apologize for the inconvenience and appreciate your understanding.\n\nBest regards,\n${designerName}`;
+    window.location.href = `mailto:${clientEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  };
 
   if (loading) return <div className="flex justify-center p-8">Loading service requests...</div>;
   if (error) return <div className="p-4 text-red-500">{error}</div>;
@@ -145,10 +151,21 @@ const DesignerServiceRequests = () => {
               
               <div className="flex justify-end mt-4 space-x-2 flex-shrink-0">
                 {service.status === 'assigned' && !isDeadlineAvailable(service.deadline) && (
+                  <div
+                  className="flex space-x-2"
+                  >
                   <button 
                     onClick ={() => handleCancel(service._id)} className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
                   > Cancel 
                   </button>
+
+                  <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                    onClick={
+                      handleEmailClick(service.clientEmail, service.title, service.clientName, service.designerName)
+                    }
+                  > Chat Client 
+                  </button>
+                  </div>
                 )}
                 {service.status === 'assigned' && isDeadlineAvailable(service.deadline) && (
                   <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"

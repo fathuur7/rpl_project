@@ -36,11 +36,12 @@ const NotificationPage = () => {
       router.push('/login');
       return;
     }
+
     
     const fetchOrders = async () => {
       setLoading(true);
       try {
-        const response = await fetch('http://localhost:5000/api/orders', {
+        const response = await fetch('http://localhost:5000/api/v1/orders', {
           credentials: 'include' // This ensures cookies are sent with the request for Passport authentication
         });
         
@@ -65,7 +66,7 @@ const NotificationPage = () => {
 
   const updateOrderStatus = async (orderId, newStatus) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/orders/${orderId}/status`, {
+      const response = await fetch(`http://localhost:5000/api/v1/orders/${orderId}/status`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
@@ -203,6 +204,8 @@ const NotificationPage = () => {
                 <Badge className={getStatusBadgeStyle(order.status)}>
                   {order.status.replace('_', ' ')}
                 </Badge>
+              
+
                 <span className="text-sm text-gray-500">
                   {getTimeAgo(order.createdAt)}
                 </span>
@@ -310,7 +313,11 @@ const NotificationPage = () => {
           <TabsTrigger value="all">All</TabsTrigger>
           <TabsTrigger value="pending">Pending</TabsTrigger>
           <TabsTrigger value="in_progress">In Progress</TabsTrigger>
+          <TabsTrigger value="revision">Revision</TabsTrigger>
           <TabsTrigger value="completed">Completed</TabsTrigger>
+          <TabsTrigger onClick={() => router.push('/notif/review')} value="review">
+            Review
+          </TabsTrigger>
         </TabsList>
         
         <TabsContent value="all">
@@ -342,9 +349,23 @@ const NotificationPage = () => {
         <TabsContent value="in_progress">
           {loading ? (
             <Skeleton className="h-32 w-full mb-4 rounded-lg" />
-          ) : orders.filter(o => o.status === 'in_progress' || o.status === 'revision').length > 0 ? (
+          ) : orders.filter(o => o.status === 'in_progress').length > 0 ? (
             orders
-              .filter(o => o.status === 'in_progress' || o.status === 'revision')
+              .filter(o => o.status === 'in_progress')
+              .map(order => renderOrderItem(order))
+          ) : (
+            <Card className="p-8 text-center text-gray-500">
+              <p>No orders in progress</p>
+            </Card>
+          )}
+        </TabsContent>
+
+        <TabsContent value="revision">
+          {loading ? (
+            <Skeleton className="h-32 w-full mb-4 rounded-lg" />
+          ) : orders.filter(o => o.status === 'revision').length > 0 ? (
+            orders
+              .filter(o => o.status === 'revision')
               .map(order => renderOrderItem(order))
           ) : (
             <Card className="p-8 text-center text-gray-500">

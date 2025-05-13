@@ -17,7 +17,7 @@ export default function ServiceDetail() {
   useEffect(() => {
     if (!id) return;
 
-    fetch(`http://localhost:5000/api/designer/services/${id}`, {
+    fetch(`http://localhost:5000/api/v1/designer/services/${id}`, {
       credentials: 'include'
     })
       .then(response => {
@@ -43,7 +43,7 @@ export default function ServiceDetail() {
   const handleApply = () => {
     setApplying(true);
     
-    fetch(`http://localhost:5000/api/designer/services/${id}/apply`, {
+    fetch(`http://localhost:5000/api/v1/designer/services/${id}/apply`, {
       method: 'PUT',
       credentials: 'include',
       headers: {

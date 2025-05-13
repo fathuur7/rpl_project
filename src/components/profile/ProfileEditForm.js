@@ -29,7 +29,7 @@ export default function ProfileEditForm({ user, onUpdate, onCancel }) {
     setError("");
     
     try {
-      const response = await fetch(`http://localhost:5000/api/users/${user.id}`, {
+      const response = await fetch(`http://localhost:5000/api/v1/users/${user.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

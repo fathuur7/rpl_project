@@ -50,7 +50,7 @@ export default function UserMenu({ user }) {
       const userId = user.id;
       console.log("User ID:", userId);
       
-      const response = await fetch(`http://localhost:5000/api/users/${userId}`, {
+      const response = await fetch(`http://localhost:5000/v1/api/users/${userId}`, {
         method: "DELETE",
         credentials: "include", // Ensure cookies are sent with the request
       });

@@ -6,7 +6,7 @@ import useCurrentUser from '@/hooks/useCurrentUser';
 import { fetchCategories as fetchCategoriesService } from '@/services/categories';
 import { toast } from 'sonner';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+const API_BASE_URL = 'http://localhost:5000';
 
 const EditServicePage = () => {
   const { id } = useParams();
@@ -55,7 +55,7 @@ const EditServicePage = () => {
   
   const fetchServiceRequest = async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/services/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/api/v1/services/${id}`, {
         credentials: 'include',
         method: 'GET',
         headers: {

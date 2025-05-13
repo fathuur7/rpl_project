@@ -21,7 +21,7 @@ export default function ProfilePage() {
     // Fetch user profile data
     const fetchUserProfile = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/auth/me", {
+        const response = await fetch("http://localhost:5000/api/v1/auth/me", {
           credentials: "include",
         });
         

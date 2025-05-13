@@ -3,6 +3,9 @@
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 
+
+const base_url ="http://localhost:5000"; // Ganti dengan URL backend Anda
+
 export default function VerificationPage() {
   const [status, setStatus] = useState({
     loading: true,
@@ -24,7 +27,7 @@ export default function VerificationPage() {
       try {
         console.log("Verification Token:", token);
 
-        const response = await fetch("http://localhost:5000/api/auth/verify-email", {
+        const response = await fetch(`${base_url}/api/v1/auth/verify-email`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

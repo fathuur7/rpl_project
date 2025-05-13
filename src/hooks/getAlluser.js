@@ -1,6 +1,8 @@
+const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"
+
 export const getAllUsers = async () => {
     try {
-        const response = await fetch("http://localhost:5000/api/users/",{
+        const response = await fetch(`${apiUrl}/api/v1/users/`,{
             method: "GET"
         });
         if (!response.ok) {

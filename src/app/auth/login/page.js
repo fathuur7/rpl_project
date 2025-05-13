@@ -11,6 +11,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
 
+const base_url = "http://localhost:5000";
+
 // Validation schema
 const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -32,7 +34,7 @@ export default function Login() {
 const onSubmit = async (data) => {
   setIsLoading(true);
   try {
-    const response = await fetch("http://localhost:5000/api/auth/login", {
+    const response = await fetch(`${base_url}/api/v1/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -41,10 +43,11 @@ const onSubmit = async (data) => {
         email: data.email,
         password: data.password,
       }),
-      credentials: "include", // Jika backend menggunakan cookie untuk autentikasi
+      credentials: "include", // Jika backend menggunakan jwt dan cookies
     });
 
     const result = await response.json();
+    console.log("Login Response:", result);
 
     if (!response.ok) {
       toast.error("Login failed", {
@@ -72,7 +75,7 @@ const onSubmit = async (data) => {
   const handleGoogleSignIn = async () => {
     try {
       // Redirect to backend OAuth endpoint
-      window.location.href = 'http://localhost:5000/api/auth/google';
+      window.location.href = `${base_url}/api/v1/auth/google`;
     } catch (error) {
       console.error('Google Sign-In Error:', error);
     }
