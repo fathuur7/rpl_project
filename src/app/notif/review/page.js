@@ -2,11 +2,12 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Calendar, Clock, FileText, User, Info, AlertCircle } from 'lucide-react';
+import { Calendar, Clock, FileText, User, Info, AlertCircle, Download, Eye } from 'lucide-react';
 
 const ReviewPage = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [downloadingId, setDownloadingId] = useState(null);
   const [error, setError] = useState(null);
   const router = useRouter();
 
@@ -23,6 +24,7 @@ const ReviewPage = () => {
         
         const result = await response.json();
         setData(result);
+        console.log(result);
         setLoading(false);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -128,82 +130,130 @@ const ReviewPage = () => {
       <h1 className="text-2xl font-bold mb-6">Review Deliverables</h1>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {data.data.map((deliverable) => (
-          <div key={deliverable._id} className="bg-white rounded-lg shadow-md overflow-hidden">
-            <div className="p-4">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-semibold truncate">{deliverable.title}</h2>
-                <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusBadgeClass(deliverable.status)}`}>
-                  {deliverable.status}
-                </span>
-              </div>
-              
-              <div className="space-y-3">
-                <div className="flex items-start">
-                  <User className="w-4 h-4 mt-1 mr-2 text-gray-500" />
-                  <div>
-                    <p className="text-sm text-gray-500">Designer</p>
-                    <p className="text-sm font-medium">{deliverable.desainer?.name || 'Unknown'}</p>
-                  </div>
+        {data.data.map((deliverable) => {
+          // Check if revision count is greater than 3
+          const revisionCount = deliverable.orderId?.revisionCount || 0;
+          const isRevisionLimitReached = revisionCount > 3;
+          
+          return (
+            <div key={deliverable._id} className="bg-white rounded-lg shadow-md overflow-hidden">
+              <div className="p-4">
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-xl font-semibold truncate">{deliverable.title}</h2>
+                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusBadgeClass(deliverable.status)}`}>
+                    {deliverable.status}
+                  </span>
                 </div>
                 
-                <div className="flex items-start">
-                  <FileText className="w-4 h-4 mt-1 mr-2 text-gray-500" />
-                  <div>
-                    <p className="text-sm text-gray-500">Description</p>
-                    <p className="text-sm">{deliverable.description}</p>
+                <div className="space-y-3">
+                  <div className="flex items-start">
+                    <User className="w-4 h-4 mt-1 mr-2 text-gray-500" />
+                    <div>
+                      <p className="text-sm text-gray-500">Designer</p>
+                      <p className="text-sm font-medium">{deliverable.desainer?.name || 'Unknown'}</p>
+                    </div>
                   </div>
-                </div>
-                
-                <div className="flex items-start">
-                  <Info className="w-4 h-4 mt-1 mr-2 text-gray-500" />
-                  <div>
-                    <p className="text-sm text-gray-500">Order Status</p>
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getOrderStatusBadgeClass(deliverable.orderId?.status || '')}`}>
-                      {deliverable.orderId?.status || 'Unknown'}
-                    </span>
+                  
+                  <div className="flex items-start">
+                    <FileText className="w-4 h-4 mt-1 mr-2 text-gray-500" />
+                    <div>
+                      <p className="text-sm text-gray-500">Description</p>
+                      <p className="text-sm">{deliverable.description}</p>
+                    </div>
                   </div>
-                </div>
-                
-                <div className="flex items-start">
-                  <Clock className="w-4 h-4 mt-1 mr-2 text-gray-500" />
-                  <div>
-                    <p className="text-sm text-gray-500">Submitted</p>
-                    <p className="text-sm">{formatDate(deliverable.submittedAt)}</p>
+                  
+                  <div className="flex items-start">
+                    <Info className="w-4 h-4 mt-1 mr-2 text-gray-500" />
+                    <div>
+                      <p className="text-sm text-gray-500">Order Status</p>
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${getOrderStatusBadgeClass(deliverable.orderId?.status || '')}`}>
+                        {deliverable.orderId?.status || 'Unknown'}
+                      </span>
+                    </div>
                   </div>
-                </div>
-              </div>
-              
-              {deliverable.fileUrl && (
-                <div className="mt-4">
-                  <div className="aspect-w-16 aspect-h-9 bg-gray-100 rounded overflow-hidden">
-                    <img 
-                      src={deliverable.fileUrl} 
-                      alt={deliverable.title}
-                      className="object-cover w-full h-48"
-                    />
-                  </div>
-                  <div className="mt-3 flex justify-between">
-                    <button
-                      onClick={() => handleViewImage(deliverable.fileUrl)}
-                      className="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700"
-                    >
-                      View Full Image
-                    </button>
-                    
 
-                    <button className="px-3 py-1 bg-gray-600 text-white text-sm rounded hover:bg-gray-700"
-                      onClick={() => router.push(`/notif/review/${deliverable._id}`)}
-                    >
-                        Looking for response
-                    </button>
-                    
+                  <div className="flex items-start">
+                    <Info className="w-4 h-4 mt-1 mr-2 text-gray-500" />
+                    <div>
+                      <p className="text-sm text-gray-500">Revision</p>
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${isRevisionLimitReached ? 'bg-red-100 text-red-800' : getOrderStatusBadgeClass(deliverable.orderId?.status || '')}`}>
+                        {deliverable.orderId?.revisionCount || '0'}
+                        {isRevisionLimitReached && ' (Limit reached)'}
+                      </span>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start">
+                    <Clock className="w-4 h-4 mt-1 mr-2 text-gray-500" />
+                    <div>
+                      <p className="text-sm text-gray-500">Submitted</p>
+                      <p className="text-sm">{formatDate(deliverable.submittedAt)}</p>
+                    </div>
                   </div>
                 </div>
-              )}
+                
+                {deliverable.fileUrl && (
+                  <div className="mt-4">
+                    <div className="aspect-w-16 aspect-h-9 bg-gray-100 rounded overflow-hidden relative group">
+                      <img 
+                        src={deliverable.fileUrl} 
+                        alt={deliverable.title}
+                        className="object-cover w-full h-48"
+                      />
+                      
+                      {/* Overlay with image actions */}
+                      <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                        <div className="flex space-x-2">
+                          <button
+                            onClick={() => handleViewImage(deliverable.fileUrl)}
+                            className="px-3 py-2 bg-blue-600 text-white rounded-l hover:bg-blue-700 flex items-center"
+                            title="View Full Image"
+                          >
+                            <Eye className="w-4 h-4 mr-1" />
+                            <span>View</span>
+                          </button>
+                          
+                          <button
+                            onClick={() => router.push(`/donwload/${deliverable._id}`)}
+                            disabled={downloadingId === deliverable._id}
+                            className="px-3 py-2 bg-green-600 text-white rounded-r hover:bg-green-700 flex items-center"
+                            title="Download Image"
+                          >
+                            {downloadingId === deliverable._id ? (
+                              <div className="animate-spin h-4 w-4 border-2 border-white rounded-full mr-1 border-t-transparent"></div>
+                            ) : (
+                              <Download className="w-4 h-4 mr-1" />
+                            )}
+                            <span>Download</span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="mt-3">                      
+                      {isRevisionLimitReached ? (
+                        <button 
+                          disabled
+                          className="w-full px-3 py-1 bg-gray-400 text-white text-sm rounded cursor-not-allowed opacity-60"
+                          title="Revision limit reached"
+                        >
+                          Looking for response
+                        </button>
+                      ) : (
+                        <button 
+                          className="w-full px-3 py-1 bg-gray-600 text-white text-sm rounded hover:bg-gray-700"
+                          onClick={() => router.push(`/notif/review/${deliverable._id}`)}
+                        >
+                          Looking for response
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

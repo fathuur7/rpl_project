@@ -43,6 +43,25 @@ const DeliverableDetailPage = ({ params }) => {
     }
   }, [deliverableId]);
 
+    const handleDirectDownload = (id, fileName) => {
+      try {
+        // Set unique ID for direct download to manage loading state
+        setDownloadingId(`direct-${id}`);
+        
+        // Open download URL in a new tab which will trigger the download
+        window.open(`http://localhost:5000/api/v1/deliverables/${id}/download`, '_blank');
+        
+        // Set timeout to remove the loading state after a brief period
+        setTimeout(() => {
+          setDownloadingId(null);
+        }, 2000);
+      } catch (error) {
+        console.error('Error opening download link:', error);
+        setError(error.message);
+        setDownloadingId(null);
+      }
+    };
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', {
