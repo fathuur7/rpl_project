@@ -43,15 +43,15 @@ const DeliverableCreatePage = () => {
         const data = await response.json()
         setOrder(data)
         
-        // Check if user is the designer for this order
-        if (user && data.designer && data.designer._id !== user._id) {
-          setError('You are not authorized to submit deliverables for this order')
-        }
+        // // Check if user is the designer for this order
+        // if (user && data.designer && data.designer._id !== user._id) {
+        //   setError('You are not authorized to submit deliverables for this order')
+        // }
         
-        // Check if order status allows deliverable submission
-        if (!['in_progress', 'revision'].includes(data.status)) {
-          setError('This order is not currently accepting deliverables')
-        }
+        // // Check if order status allows deliverable submission
+        // if (!['in_progress', 'revision'].includes(data.status)) {
+        //   setError('This order is not currently accepting deliverables')
+        // }
       } catch (err) {
         console.error('Error fetching order:', err)
         setError('Failed to load order details. Please try again later.')
