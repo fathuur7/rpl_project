@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Navbar from '@/components/layouts/navbar/com';
 import EnhancedNavbar from "@/components/layouts/navbar/com";
 import Image from "next/image";
 import Link from "next/link";
@@ -258,6 +257,7 @@ export default function BlogPage() {
   return (
 
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <EnhancedNavbar/>
       <div className="max-w-7xl mx-auto">
         {/* Header Blog & News, meniru .title-area */}
         <div className="text-center mb-12">
