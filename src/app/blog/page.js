@@ -2,13 +2,13 @@
 
 import { useState } from "react";
 import Navbar from '@/components/layouts/navbar/com';
+import EnhancedNavbar from "@/components/layouts/navbar/com";
 import Image from "next/image";
 import Link from "next/link";
 
-// Icons are not directly used in the simplified version, but kept for potential future use
+
 // import { Calendar, Clock, User, Tag, Search, ChevronRight, ChevronLeft } from "lucide-react";
 
-// Data artikel blog yang diekstrak dari Blog design.html
 const blogPosts = [
   {
     "title": "Memulai Bisnis Dengan Branding Yang Baik",
@@ -254,12 +254,9 @@ const blogPosts = [
 
 
 export default function BlogPage() {
-  // Fitur search dan pagination dihilangkan untuk menyederhanakan tampilan
-  // dan mendekati struktur HTML statis yang diberikan.
 
   return (
-    // Replikasi struktur body dan area utama dari Blog design.html
-    // Kelas Tailwind CSS digunakan untuk meniru layout dasar
+
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         {/* Header Blog & News, meniru .title-area */}
