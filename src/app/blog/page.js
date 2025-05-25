@@ -102,7 +102,296 @@ const blogPosts = [
     "category": "Branding",
     "readTime": "6 min",
     "date": "2023-12-18"
+  },
+  {
+    "title": "Biaya pembuatan desain kemasan profesional",
+    "imageUrl": "/blog-images/13-Biaya-pembuatan-desain-kemasan-profesional.jpg",
+    "link": "https://creviartdesign.com/blog&news/13-Biaya-pembuatan-desain-kemasan-profesional",
+    "category": "Desain",
+    "readTime": "7 min",
+    "date": "2023-12-18"
+  },
+  {
+    "title": "5 fungsi logo & brand identity",
+    "imageUrl": "/blog-images/14-5-fungsi-logo-dan-brand-identity.jpg",
+    "link": "https://creviartdesign.com/blog&news/14-5-fungsi-logo-dan-brand-identity",
+    "category": "Branding",
+    "readTime": "7 min",
+    "date": "2023-12-17"
+  },
+  {
+    "title": "Jenis jenis logo",
+    "imageUrl": "/blog-images/15-Jenis-jenis-logo.jpg",
+    "link": "https://creviartdesign.com/blog&news/15-Jenis-jenis-logo",
+    "category": "Desain",
+    "readTime": "6 min",
+    "date": "2023-12-16"
+  },
+  {
+    "title": "Bisnis yang bagus sekarang ini",
+    "imageUrl": "/blog-images/16-Bisnis-yang-bagus-sekarang-ini.jpg",
+    "link": "https://creviartdesign.com/blog&news/16-Bisnis-yang-bagus-sekarang-ini",
+    "category": "Bisnis",
+    "readTime": "8 min",
+    "date": "2023-12-15"
+  },
+  {
+    "title": "Bagaimana cara meningkatkan penjualan",
+    "imageUrl": "/blog-images/17-Bagaimana-cara-meningkatkan-penjualan-produk.jpg",
+    "link": "https://creviartdesign.com/blog&news/17-Bagaimana-cara-meningkatkan-penjualan-produk",
+    "category": "Bisnis",
+    "readTime": "7 min",
+    "date": "2023-12-14"
+  },
+  {
+    "title": "Tips meningkatkan brand/produk",
+    "imageUrl": "/blog-images/18-Tips-meningkatkan-brandproduk.jpg",
+    "link": "https://creviartdesign.com/blog&news/18-Tips-meningkatkan-brandproduk",
+    "category": "Branding",
+    "readTime": "5 min",
+    "date": "2023-12-13"
+  },
+  {
+    "title": "Desain logo simple elegan profesional",
+    "imageUrl": "/blog-images/19-Desain-logo-simple-elegan-profesional.jpg",
+    "link": "https://creviartdesign.com/blog&news/19-Desain-logo-simple-elegan-profesional",
+    "category": "Desain",
+    "readTime": "6 min",
+    "date": "2023-12-12"
+  },
+  {
+    "title": "Trend logo & desain grafis sekarang",
+    "imageUrl": "/blog-images/20-Trend-logo-dan-desain-grafis-sekarang.jpg",
+    "link": "https://creviartdesign.com/blog&news/20-Trend-logo-dan-desain-grafis-sekarang",
+    "category": "Desain",
+    "readTime": "8 min",
+    "date": "2023-12-11"
+  },
+  {
+    "title": "Apakah logo & desain itu penting?",
+    "imageUrl": "/blog-images/21-Apakah-logo-dan-desain-itu-penting.jpg",
+    "link": "https://creviartdesign.com/blog&news/21-Apakah-logo-dan-desain-itu-penting",
+    "category": "Desain",
+    "readTime": "7 min",
+    "date": "2023-12-10"
+  },
+  {
+    "title": "Desainer grafis profesional mahal??",
+    "imageUrl": "/blog-images/22-Desainer-grafis-profesional-harga-nya-mahal.jpg",
+    "link": "https://creviartdesign.com/blog&news/22-Desainer-grafis-profesional-harga-nya-mahal",
+    "category": "Pricing",
+    "readTime": "6 min",
+    "date": "2023-12-09"
+  },
+  {
+    "title": "Jasa desain skincare & kosmetik",
+    "imageUrl": "/blog-images/23-Jasa-desain-skincare-dan-kosmetik.jpg",
+    "link": "https://creviartdesign.com/blog&news/23-Jasa-desain-skincare-dan-kosmetik",
+    "category": "Desain",
+    "readTime": "7 min",
+    "date": "2023-12-08"
+  },
+  {
+    "title": "Berapakah harga jasa desain grafis di jakarta",
+    "imageUrl": "/blog-images/24-Berapakah-harga-jasa-desain-grafis-di-jakarta.jpg",
+    "link": "https://creviartdesign.com/blog&news/24-Berapakah-harga-jasa-desain-grafis-di-jakarta",
+    "category": "Pricing",
+    "readTime": "8 min",
+    "date": "2023-12-07"
+  },
+  {
+    "title": "Cara membangun bisnis bagi pemula",
+    "imageUrl": "/blog-images/25-Cara-membangun-bisnis-bagi-pemula.jpg",
+    "link": "https://creviartdesign.com/blog&news/25-Cara-membangun-bisnis-bagi-pemula",
+    "category": "Bisnis",
+    "readTime": "9 min",
+    "date": "2023-12-06"
+  },
+  {
+    "title": "Desain grafis adalah",
+    "imageUrl": "/blog-images/26-Desain-grafis-adalah.jpg",
+    "link": "https://creviartdesign.com/blog&news/26-Desain-grafis-adalah",
+    "category": "Desain",
+    "readTime": "5 min",
+    "date": "2023-12-05"
+  },
+  {
+    "title": "Software desain grafis profesional",
+    "imageUrl": "/blog-images/27-Software-desain-grafis-profesional.jpg",
+    "link": "https://creviartdesign.com/blog&news/27-Software-desain-grafis-profesional",
+    "category": "Desain",
+    "readTime": "7 min",
+    "date": "2023-12-04"
+  },
+  {
+    "title": "Link download logo social media gratis",
+    "imageUrl": "/blog-images/28-Link-download-logo-social-media-instagram-whatsapp-facebook-gratis.jpg",
+    "link": "https://creviartdesign.com/blog&news/28-Link-download-logo-social-media-instagram-whatsapp-facebook-gratis",
+    "category": "Tutorial",
+    "readTime": "6 min",
+    "date": "2023-12-03"
+  },
+  {
+    "title": "Inspirasi logo terkenal & filosofinya",
+    "imageUrl": "/blog-images/29-Inspirasi-logo-logo-terkenal-dunia-dan-filosofinya.jpg",
+    "link": "https://creviartdesign.com/blog&news/29-Inspirasi-logo-logo-terkenal-dunia-dan-filosofinya",
+    "category": "Desain",
+    "readTime": "8 min",
+    "date": "2023-12-02"
+  },
+  {
+    "title": "Manfaat social media untuk bisnis",
+    "imageUrl": "/blog-images/30-Apa-manfaat-social-media-untuk-bisnis.jpg",
+    "link": "https://creviartdesign.com/blog&news/30-Apa-manfaat-social-media-untuk-bisnis",
+    "category": "Bisnis",
+    "readTime": "7 min",
+    "date": "2023-12-01"
+  },
+  {
+    "title": "Membangun bisnis dari 0 tanpa modal",
+    "imageUrl": "/blog-images/31-Bagaimana-cara-membangun-bisnis-dari-0-tanpa-modal.jpg",
+    "link": "https://creviartdesign.com/blog&news/31-Bagaimana-cara-membangun-bisnis-dari-0-tanpa-modal",
+    "category": "Bisnis",
+    "readTime": "10 min",
+    "date": "2023-11-30"
+  },
+  {
+    "title": "Mengenal apa itu crypto & metaverse",
+    "imageUrl": "/blog-images/32-Mengenal-apa-itu-crypto-dan-metaverse.jpg",
+    "link": "https://creviartdesign.com/blog&news/32-Mengenal-apa-itu-crypto-dan-metaverse",
+    "category": "Teknologi",
+    "readTime": "9 min",
+    "date": "2023-11-29"
+  },
+  {
+    "title": "Sejarah & awal desain grafis di dunia",
+    "imageUrl": "/blog-images/33-Sejarah-dan-awal-desain-grafis-di-dunia.jpg",
+    "link": "https://creviartdesign.com/blog&news/33-Sejarah-dan-awal-desain-grafis-di-dunia",
+    "category": "Desain",
+    "readTime": "8 min",
+    "date": "2023-11-28"
+  },
+  {
+    "title": "Brand skincare/kosmetik lokal yang terbaik",
+    "imageUrl": "/blog-images/34-Brand-skincarekosmetik-lokal-yang-terbaik.jpg",
+    "link": "https://creviartdesign.com/blog&news/34-Brand-skincarekosmetik-lokal-yang-terbaik",
+    "category": "Branding",
+    "readTime": "7 min",
+    "date": "2023-11-27"
+  },
+  {
+    "title": "Fungsi brand guideline book",
+    "imageUrl": "/blog-images/35-Fungsi-brand-guide-line-book-dalam-branding.jpg",
+    "link": "https://creviartdesign.com/blog&news/35-Fungsi-brand-guide-line-book-dalam-branding",
+    "category": "Branding",
+    "readTime": "6 min",
+    "date": "2023-11-26"
+  },
+  {
+    "title": "Komposisi, elemen, hirarki dalam dunia desain",
+    "imageUrl": "/blog-images/36-Komposisi,-elemen,-hirarki-dalam-dunia-desain.jpg",
+    "link": "https://creviartdesign.com/blog&news/36-Komposisi,-elemen,-hirarki-dalam-dunia-desain",
+    "category": "Desain",
+    "readTime": "9 min",
+    "date": "2023-11-25"
+  },
+  {
+    "title": "Rekomendasi film terbaik sepanjang masa",
+    "imageUrl": "/blog-images/37-Rekomendasi-film-terbaik-sepanjang-masa.jpg",
+    "link": "https://creviartdesign.com/blog&news/37-Rekomendasi-film-terbaik-sepanjang-masa",
+    "category": "Hiburan",
+    "readTime": "5 min",
+    "date": "2023-11-24"
+  },
+  {
+    "title": "Membangun bisnis dari instagram, facebook, tiktok & whatsapp",
+    "imageUrl": "/blog-images/38-Membangun-bisnis-dengan-social-media-instagram,-facebook,-tiktok-dan-whatsapp.jpg",
+    "link": "https://creviartdesign.com/blog&news/38-Membangun-bisnis-dengan-social-media-instagram,-facebook,-tiktok-dan-whatsapp",
+    "category": "Bisnis",
+    "readTime": "11 min",
+    "date": "2023-11-23"
+  },
+  {
+    "title": "Brand lokal indonesia yang dikira internasional",
+    "imageUrl": "/blog-images/39-Brand-lokal-indonesia-yang-dikira-internasional.jpg",
+    "link": "https://creviartdesign.com/blog&news/39-Brand-lokal-indonesia-yang-dikira-internasional",
+    "category": "Branding",
+    "readTime": "7 min",
+    "date": "2023-11-22"
+  },
+  {
+    "title": "Perbedaan brand agency, design studio, freelancer dan drafter",
+    "imageUrl": "/blog-images/40-Perbedaan-brand-agency,-design-studio,-freelance-desainer-dan-drafter-desainer.jpg",
+    "link": "https://creviartdesign.com/blog&news/40-Perbedaan-brand-agency,-design-studio,-freelance-desainer-dan-drafter-desainer",
+    "category": "Desain",
+    "readTime": "10 min",
+    "date": "2023-11-21"
+  },
+  {
+    "title": "Perkembangan AI chatgpt microsoft vs AI bard google",
+    "imageUrl": "/blog-images/41-Perkembangan-AI-chatgpt-microsoft-vs-AI-bard-google.jpg",
+    "link": "https://creviartdesign.com/blog&news/41-Perkembangan-AI-chatgpt-microsoft-vs-AI-bard-google",
+    "category": "Teknologi",
+    "readTime": "12 min",
+    "date": "2023-11-20"
+  },
+  {
+    "title": "Trend desain grafis di tahun 2023",
+    "imageUrl": "/blog-images/42-Trend-desain-grafis-di-tahun-2023.jpg",
+    "link": "https://creviartdesign.com/blog&news/42-Trend-desain-grafis-di-tahun-2023",
+    "category": "Desain",
+    "readTime": "8 min",
+    "date": "2023-11-19"
+  },
+  {
+    "title": "Perbedaan desain interior, grafis, produk, arsitektur",
+    "imageUrl": "/blog-images/43-Perbedaan-dan-persamaan-desain.jpg",
+    "link": "https://creviartdesign.com/blog&news/43-Perbedaan-dan-persamaan-desain-interior,-desain-grafis,-desain-produk-dan-desain-arsitektur",
+    "category": "Desain",
+    "readTime": "9 min",
+    "date": "2023-11-18"
+  },
+  {
+    "title": "Pentingnya SEO, backlink, landing page, sosmed.",
+    "imageUrl": "/blog-images/44-Pentingnya-seo,-backlink,-landing-page,-sosmed-dalam-menaikkan-traffic-website.jpg",
+    "link": "https://creviartdesign.com/blog&news/44-Pentingnya-seo,-backlink,-landing-page,-sosmed-dalam-menaikkan-traffic-website",
+    "category": "SEO",
+    "readTime": "10 min",
+    "date": "2023-11-17"
+  },
+  {
+    "title": "10 alasan kita harus melakukan rebranding bisnis",
+    "imageUrl": "/blog-images/45-10-alasan-kita-harus-melakukan-rebranding-bisnis-dan-produk-kita.jpg",
+    "link": "https://creviartdesign.com/blog&news/45-10-alasan-kita-harus-melakukan-rebranding-bisnis-dan-produk-kita",
+    "category": "Branding",
+    "readTime": "8 min",
+    "date": "2023-11-16"
+  },
+  {
+    "title": "Bagaimana proses pembuatan logo profesional",
+    "imageUrl": "/blog-images/46-Bagaimana-proses-pembuatan-logo-profesional.jpg",
+    "link": "https://creviartdesign.com/blog&news/46-Bagaimana-proses-pembuatan-logo-profesional",
+    "category": "Tutorial",
+    "readTime": "7 min",
+    "date": "2023-11-15"
+  },
+  {
+    "title": "Aplikasi design online gratis untuk pemula",
+    "imageUrl": "/blog-images/47-Aplikasi-design-online-gratis-yang-mudah-digunakan-untuk-pemula.jpg",
+    "link": "https://creviartdesign.com/blog&news/47-Aplikasi-design-online-gratis-yang-mudah-digunakan-untuk-pemula",
+    "category": "Desain",
+    "readTime": "6 min",
+    "date": "2023-11-14"
+  },
+  {
+    "title": "Cara membuat CV dan presentasi yang baik agar mudah diterima",
+    "imageUrl": "/blog-images/48-Cara-membuat-cv-dan-presentasi-yang-baik-agar-mudah-diterima.jpg",
+    "link": "https://creviartdesign.com/blog&news/48-Cara-membuat-cv-dan-presentasi-yang-baik-agar-mudah-diterima",
+    "category": "Tutorial",
+    "readTime": "9 min",
+    "date": "2023-11-13"
   }
+
 ];
 
 const categories = ["All", "Branding", "Bisnis", "Desain", "Tutorial", "SEO", "Packaging", "Pricing"];
@@ -123,9 +412,11 @@ export default function BlogPage() {
       <EnhancedNavbar/>
       
       {/* Hero Section */}
-      <div className="relative overflow-hidden bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-700 py-24">
-        <div className="absolute inset-0 bg-black opacity-20"></div>
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-purple-600/20"></div>
+      <div 
+        className="relative overflow-hidden py-24 bg-cover bg-center"
+        style={{ backgroundImage: "url('/blog-images/bannerpageblog.jpg')" }} // Updated line
+      >
+        <div className="absolute inset-0 bg-black opacity-80"></div> {/* Increased opacity for better text readability */}
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
             Blog & <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-500">News</span>
@@ -136,10 +427,12 @@ export default function BlogPage() {
           <div className="w-24 h-1 bg-gradient-to-r from-yellow-400 to-orange-500 mx-auto rounded-full"></div>
         </div>
         
-        {/* Decorative elements */}
+        {/* Decorative elements - You might want to remove or adjust these based on the image */}
+        {/*
         <div className="absolute top-10 left-10 w-20 h-20 bg-white/10 rounded-full blur-xl"></div>
         <div className="absolute bottom-10 right-10 w-32 h-32 bg-purple-500/20 rounded-full blur-2xl"></div>
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-full blur-3xl"></div>
+        */}
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
