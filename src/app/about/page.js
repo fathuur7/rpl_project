@@ -132,7 +132,7 @@ const AboutUs = () => {
               transition={{ duration: 0.7, type: "spring", stiffness: 100 }}
               className="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 mb-4"
             >
-              TIF Design Studio
+              DesignTify Studio
             </motion.h1>
             <motion.p 
               variants={itemVariants}

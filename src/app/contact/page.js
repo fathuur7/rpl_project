@@ -97,7 +97,7 @@ const ContactPage = () => {
               className="flex items-center space-x-4"
             >
               <Mail className="w-6 h-6" />
-              <span>contact@tifdesign.com</span>
+              <span>contact@designtify.com</span>
             </motion.div>
           </div>
 

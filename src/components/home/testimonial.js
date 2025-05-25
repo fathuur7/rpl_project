@@ -48,14 +48,14 @@ const TestimonialCard = ({ quote, author, company, avatar, achievements }) => {
 const TestimonialsSection = () => {
   const testimonials = [
     {
-      quote: "Working with TIF Design transformed our brand completely. The team understood our vision perfectly.",
+      quote: "Working with DesignTify transformed our brand completely. The team understood our vision perfectly.",
       author: "Sarah Johnson",
       company: "Acme Corp",
       avatar: "/images/testimonials/sarah.jpg",
       achievements: ["10x ROI", "Award-winning design"]
     },
     {
-      quote: "The attention to detail and creative solutions provided by TIF Design exceeded our expectations.",
+      quote: "The attention to detail and creative solutions provided by DesignTify exceeded our expectations.",
       author: "Michael Chen",
       company: "TechStart Inc.",
       avatar: "/images/testimonials/michael.jpg",
@@ -81,7 +81,7 @@ const TestimonialsSection = () => {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
           >
-            Don&apos;t just take our word for it. Here&apos;s what our clients have to say about working with TIF Design.
+            Don&apos;t just take our word for it. Here&apos;s what our clients have to say about working with DesignTify.
           </motion.p>
         </div>
         

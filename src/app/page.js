@@ -123,7 +123,7 @@ export default function App() {
           <Image 
             priority
             src="/favicon.ico" 
-            alt="TIF Design Logo" 
+            alt="DesignTify Logo" 
             width={96} 
             height={96} 
             className="shadow-xl rounded-full ring-4 ring-white/50"
@@ -136,7 +136,7 @@ export default function App() {
           whileHover="hover"
           className="text-5xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-purple-500 to-pink-500 mb-4"
         >
-          TIF Design Services
+          DesignTify Services
         </motion.h1>
 
         {/* Subtitle with Subtle Movement */}

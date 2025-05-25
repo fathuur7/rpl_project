@@ -24,6 +24,7 @@ const PortfolioDetailPage = () => {
         }
         
         const result = await response.json()
+        console.log('Portfolio Detail:', result)
         setPortfolio(result.data)
       } catch (error) {
         console.error('Error fetching portfolio details:', error)
@@ -32,7 +33,7 @@ const PortfolioDetailPage = () => {
         setLoading(false)
       }
     }
-
+    
     if (portfolioId) {
       fetchPortfolioDetail()
     }
@@ -82,7 +83,7 @@ const PortfolioDetailPage = () => {
 
   // Get order details if available from deliverable -> orderId
   const orderDetails = portfolio.deliverable?.orderId || null
-
+  console.log('Order Details:', orderDetails)
   return (
     <div className="bg-gray-50 min-h-screen">
       {/* Header */}
@@ -127,10 +128,10 @@ const PortfolioDetailPage = () => {
       <div className="container mx-auto px-4 py-8">
         <div className="bg-white rounded-lg shadow-md overflow-hidden">
           {/* Portfolio Image */}
-          {portfolio.thumbnailUrl ? (
+          {portfolio.fileUrl ? (
             <div className="h-96 bg-gray-200 relative">
               <img 
-                src={portfolio.thumbnailUrl} 
+                src={portfolio.fileUrl} 
                 alt={portfolio.title} 
                 className="w-full h-full object-cover"
               />
@@ -147,7 +148,7 @@ const PortfolioDetailPage = () => {
             <div className="mb-8">
               <h2 className="text-xl font-semibold mb-4">Description</h2>
               <p className="text-gray-700 leading-relaxed whitespace-pre-line">
-                {portfolio.description || orderDetails?.description || 'No description provided.'}
+                {portfolio.deliverable.description || 'No description available'}
               </p>
             </div>
             

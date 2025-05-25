@@ -17,7 +17,7 @@ export default function SalesBot() {
   const [messages, setMessages] = useState([
     { 
       id: 0, 
-      text: "Hi there! 👋 I'm your TIF Design sales representative. Our premium design solutions can transform your business. What specific design needs can I help you with today?", 
+      text: "Hi there! 👋 I'm your DesignTify sales representative. Our premium design solutions can transform your business. What specific design needs can I help you with today?", 
       sender: 'bot' 
     }
   ]);
@@ -66,7 +66,7 @@ export default function SalesBot() {
       // Add system instruction to make the bot act as a salesperson
       const systemInstruction = {
         role: 'system',
-        content: 'You are a professional sales representative for TIF Design. Your goal is to persuasively promote our design solutions and convert inquiries into sales. Highlight benefits, offer special deals, and guide users toward making a purchase. Be enthusiastic, solution-focused, and always close with a call to action. Address objections confidently.'
+        content: 'You are a professional sales representative for DesignTify. Your goal is to persuasively promote our design solutions and convert inquiries into sales. Highlight benefits, offer special deals, and guide users toward making a purchase. Be enthusiastic, solution-focused, and always close with a call to action. Address objections confidently.'
       };
       
       // Add the new user message
@@ -113,7 +113,7 @@ export default function SalesBot() {
       // Add error message
       const errorResponse = {
         id: messages.length + 1,
-        text: `I'm eager to help you with our design solutions, but I'm having trouble connecting to our system. Please try again in a moment or contact us directly at sales@tifdesign.com.`,
+        text: `I'm eager to help you with our design solutions, but I'm having trouble connecting to our system. Please try again in a moment or contact us directly at sales@designtify.com.`,
         sender: 'bot'
       };
       setMessages(prev => [...prev, errorResponse]);
@@ -166,7 +166,7 @@ export default function SalesBot() {
               <div className="flex items-center space-x-3">
                 <BotIcon size={24} className="text-white" />
                 <div>
-                  <h3 className="font-bold text-lg">TIF Design Sales</h3>
+                  <h3 className="font-bold text-lg">DesignTify Sales</h3>
                   <p className="text-xs text-white/80">Talk to our product expert</p>
                 </div>
               </div>

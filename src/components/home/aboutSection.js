@@ -73,14 +73,14 @@ const AboutSection = () => {
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <span className="text-indigo-600">Crafting Brilliance</span> at TIF Design
+              <span className="text-indigo-600">Crafting Brilliance</span> at DesignTify
             </motion.h2>
             
             <motion.p 
               className="text-lg text-gray-700 mb-6 leading-relaxed"
               variants={fadeIn}
             >
-              Established in 2020, TIF Design has emerged as a sanctuary of creativity where imagination meets strategic precision. Our atelier is dedicated to cultivating exceptional design narratives that elevate our clients&apos; presence in an increasingly discerning marketplace.
+              Established in 2020, DesignTify has emerged as a sanctuary of creativity where imagination meets strategic precision. Our atelier is dedicated to cultivating exceptional design narratives that elevate our clients&apos; presence in an increasingly discerning marketplace.
             </motion.p>
             
             <motion.p 

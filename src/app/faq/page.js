@@ -52,8 +52,8 @@ const FAQPage = () => {
   const faqData = {
     general: [
       {
-        question: "What is TIF Design?",
-        answer: "TIF Design is a design agency specializing in graphic design services, offering logo design, branding, posters, brochures, product packaging, UI/UX design, and creative visual solutions for individuals and companies."
+        question: "What is DesignTify?",
+        answer: "DesignTify is a design agency specializing in graphic design services, offering logo design, branding, posters, brochures, product packaging, UI/UX design, and creative visual solutions for individuals and companies."
       },
       {
         question: "What design services do you offer?",
@@ -83,7 +83,7 @@ const FAQPage = () => {
     contact: [
       {
         question: "How can I reach you?",
-        answer: "- Email: contact@tifdesign.com\n- Phone: +62 XXX-XXXX-XXXX\n- Social Media: @TIFDesign"
+        answer: "- Email: contact@designtify.com\n- Phone: +62 XXX-XXXX-XXXX\n- Social Media: @DesignTify"
       },
       {
         question: "Do you offer design revisions?",
@@ -99,7 +99,7 @@ const FAQPage = () => {
           <CardHeader className="bg-gradient-to-r from-indigo-600 to-purple-700 text-white rounded-t-lg p-6">
             <CardTitle className="flex items-center text-xl md:text-2xl font-bold">
               <PaletteIcon className="mr-3 h-6 md:h-8 w-6 md:w-8" />
-              TIF Design - Frequently Asked Questions
+              DesignTify - Frequently Asked Questions
             </CardTitle>
           </CardHeader>
           
@@ -141,7 +141,7 @@ const FAQPage = () => {
 
         {/* Footer */}
         <div className="mt-6 text-center text-gray-500 text-sm">
-          <p>© 2024 TIF Design. All rights reserved.</p>
+          <p>© 2024 DesignTify. All rights reserved.</p>
           <p className="mt-2 text-xs">Crafting visual solutions that tell your story</p>
         </div>
       </div>

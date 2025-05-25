@@ -84,7 +84,7 @@ const HeroSection = () => {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.6 }}
           >
-            TIF Design specializes in creating stunning visual solutions for
+            DesignTify specializes in creating stunning visual solutions for
             businesses and individuals. From branding to UI/UX, we transform
             ideas into impactful designs that captivate and convert.
           </motion.p>

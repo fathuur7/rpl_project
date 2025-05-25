@@ -24,7 +24,7 @@ export default function Logo() {
         >
           <Image 
             src="/favicon.ico" 
-            alt="TIFDesign Logo"
+            alt="DesignTify Logo"
             width={45} 
             height={45} 
             className="object-cover"
@@ -33,7 +33,7 @@ export default function Logo() {
         </motion.div>
         <div className="flex flex-col">
           <h1 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            TIFDesign
+            DesignTify
           </h1>
           <p className="text-xs text-gray-500 tracking-wider">
             Creative Digital Solutions

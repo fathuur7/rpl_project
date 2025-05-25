@@ -39,22 +39,22 @@ export default function Footer() {
   const socialLinks = [
     { 
       icon: Facebook, 
-      href: "https://facebook.com/tifdesign",
+      href: "https://facebook.com/designtify",
       color: "#1877F2"
     },
     { 
       icon: Twitter, 
-      href: "https://twitter.com/tifdesign",
+      href: "https://twitter.com/designtify",
       color: "#1DA1F2"
     },
     { 
       icon: Instagram, 
-      href: "https://instagram.com/tifdesign",
+      href: "https://instagram.com/designtify",
       color: "#E1306C"
     },
     { 
       icon: Linkedin, 
-      href: "https://linkedin.com/company/tifdesign",
+      href: "https://linkedin.com/company/designtify",
       color: "#0A66C2"
     }
   ];
@@ -70,14 +70,14 @@ export default function Footer() {
                 {/* ✅ Fixed: Use absolute path for Next.js public assets */}
                 <Image 
                     src="/image/icon.png" 
-                    alt="TIF Design" 
+                    alt="DesignTify" 
                     width={64} 
                     height={64} 
                     className="w-12 h-12 rounded-2xl" 
                     unoptimized 
                 />
                 </div>
-                <h2 className="text-3xl font-bold">TIF Design</h2>
+                <h2 className="text-3xl font-bold">DesignTify</h2>
             </div>
             
             <p className="text-gray-300 mb-6 max-w-md">
@@ -129,7 +129,7 @@ export default function Footer() {
           <div className="flex flex-col space-y-4">
             <div className="flex items-center space-x-3">
               <Mail size={20} className="text-[#4BB4DE]" />
-              <span className="text-gray-300">contact@tifdesign.com</span>
+              <span className="text-gray-300">contact@designtify.com</span>
             </div>
             <div className="flex items-center space-x-3">
               <Phone size={20} className="text-[#4BB4DE]" />
@@ -161,7 +161,7 @@ export default function Footer() {
 
         {/* Copyright */}
         <div className="text-center mt-8 text-gray-400 text-sm">
-          <p>&copy; {new Date().getFullYear()} TIF Design. All Rights Reserved.</p>
+          <p>&copy; {new Date().getFullYear()} DesignTify. All Rights Reserved.</p>
           <div className="mt-2 space-x-4">
             <Link href="/privacy" className="hover:text-[#4BB4DE]">Privacy Policy</Link>
             <Link href="/terms" className="hover:text-[#4BB4DE]">Terms of Service</Link>

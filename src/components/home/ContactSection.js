@@ -176,7 +176,7 @@ const ContactSection = () => {
                   <h3 className="text-lg font-semibold text-gray-900">
                     Email Us
                   </h3>
-                  <p className="text-gray-600">info@tifdesign.com</p>
+                  <p className="text-gray-600">info@designtify.com</p>
                 </div>
               </motion.div>
               <motion.div 
