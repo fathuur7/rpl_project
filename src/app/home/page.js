@@ -63,7 +63,7 @@ const Home = () => {
     return () => {
       document.documentElement.style.scrollBehavior = "";
       sections.forEach(section => {
-        observer.unobserver(section);
+        observer.unobserve(section); // Fixed: was observer.unobserver
       });
       window.removeEventListener('scroll', handleScroll);
     };
@@ -186,54 +186,53 @@ const Home = () => {
       <Footer />
       
       {/* Global Styles - only render on client */}
-{/* Global Styles - only render on client */}
-{isClient && (
-  <style jsx global>{`
-    html {
-      scroll-behavior: smooth;
-    }
+      {isClient && (
+        <style jsx global>{`
+          html {
+            scroll-behavior: smooth;
+          }
 
-    .section-wrapper {
-      opacity: 0.4;
-      transition: opacity 0.8s ease-out;
-    }
+          .section-wrapper {
+            opacity: 0.4;
+            transition: opacity 0.8s ease-out;
+          }
 
-    .section-visible {
-      opacity: 1;
-    }
+          .section-visible {
+            opacity: 1;
+          }
 
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+          @keyframes fadeIn {
+            from {
+              opacity: 0;
+              transform: translateY(20px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
 
-    .scroll-container section {
-      position: relative;
-    }
+          .scroll-container section {
+            position: relative;
+          }
 
-    .scroll-container section::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 10%;
-      right: 10%;
-      height: 1px;
-      background: linear-gradient(
-        to right,
-        transparent,
-        rgba(107, 114, 128, 0.2),
-        transparent
-      );
-    }
-    `}</style>
-  )}
-
+          .scroll-container section::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 10%;
+            right: 10%;
+            height: 1px;
+            background: linear-gradient(
+              to right,
+              transparent,
+              rgba(107, 114, 128, 0.2),
+              transparent
+            );
+          }
+        `}
+        </style>
+      )}
     </div>
   );
 };
