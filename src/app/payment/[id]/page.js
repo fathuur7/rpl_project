@@ -264,10 +264,10 @@ const PaymentPage = () => {
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
+    <div className="bg-gradient-to-r from-indigo-200 via-purple-200 to-pink-200 shadow-lg rounded-xl p-8 mb-6 text-gray-800">
       <h1 className="text-2xl font-bold mb-6">Payment for Order #{order._id}</h1>
       
-      <div className="bg-white shadow-md rounded-lg p-6 mb-6">
+      <div className="bg-gradient-to-r from-indigo-200 via-purple-200 to-pink-200 shadow-lg rounded-xl p-8 mb-6 text-gray-800">
         <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <div>
@@ -281,7 +281,7 @@ const PaymentPage = () => {
         </div>
       </div>
       
-      <div className="bg-white shadow-md rounded-lg p-6">
+      <div className="bg-gradient-to-r from-indigo-200 via-purple-200 to-pink-200 shadow-lg rounded-xl p-8 mb-6 text-gray-800">
         <h2 className="text-xl font-semibold mb-4">Complete Payment</h2>
         <p className="mb-4">
           Click the button below to proceed with your payment using our secure payment gateway.
