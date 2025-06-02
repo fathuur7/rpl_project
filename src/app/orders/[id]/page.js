@@ -92,7 +92,7 @@ export default function OrderDetail() {
 
   return (
     <div className="container mx-auto p-4 max-w-3xl">
-      <Link href="/orders" className="text-blue-500 mb-4 inline-block">
+      <Link href="/home" className="text-blue-500 mb-4 inline-block">
         &larr; Back to Orders
       </Link>
       
