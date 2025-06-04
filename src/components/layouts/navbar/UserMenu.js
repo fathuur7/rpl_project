@@ -81,10 +81,10 @@ export default function UserMenu({ user, onNavigate }) {
     setIsLoggingOut(true);
     try {
       await logOut();
-      toast({
-        title: "Logged out successfully",
-        description: "You have been logged out of your account.",
-      });
+      // toast({
+      //   title: "Logged out successfully",
+      //   description: "You have been logged out of your account.",
+      // });
       
       if (onNavigate) {
         onNavigate("/auth/login");
@@ -93,16 +93,16 @@ export default function UserMenu({ user, onNavigate }) {
       }
     } catch (error) {
       console.error("Logout error:", error);
-      toast({
-        title: "Logout failed",
-        description: "There was an error logging you out. Please try again.",
-        variant: "destructive",
-      });
+      // toast({
+      //   title: "Logout failed",
+      //   description: "There was an error logging you out. Please try again.",
+      //   variant: "destructive",
+      // });
     } finally {
       setIsLoggingOut(false);
     }
-  }, [onNavigate, router, toast]);
-
+  }, [onNavigate, router]);
+  
   // Enhanced delete account with better error handling
   const handleDeleteAccount = useCallback(async () => {
     if (!user?.id) {

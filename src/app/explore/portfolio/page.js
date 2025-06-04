@@ -138,6 +138,8 @@ const ExplorePage = () => {
       </div>
     )
   }
+  
+  console.log('Portfolios:', portfolios)
 
   if (loading && portfolios.length === 0) {
     return (

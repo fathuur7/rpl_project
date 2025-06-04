@@ -118,6 +118,7 @@ const PortfolioDetailPage = () => {
     
     return true
   }
+  console.log('portfolio', portfolio)
 
   const handleRatingSubmit = async (e) => {
     e.preventDefault()
@@ -250,11 +251,11 @@ const PortfolioDetailPage = () => {
       <div className="bg-white shadow-sm">
         <div className="container mx-auto px-4 py-6">
           <Link 
-            href="/explore" 
+            href="/home" 
             className="inline-flex items-center text-gray-600 hover:text-blue-600 mb-4"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to explore
+            Back
           </Link>
           
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
@@ -308,13 +309,13 @@ const PortfolioDetailPage = () => {
           <div className="lg:col-span-2">
             <div className="bg-white rounded-lg shadow-md overflow-hidden mb-8">
               {/* Portfolio Image */}
-              {portfolio.fileUrl ? (
+              {portfolio.thumbnailUrl ? (
                 <div className="h-96 bg-gray-200 relative">
-                  <img 
-                    src={portfolio?.deliverable.fileUrl} 
-                    alt={deliverable.title}
-                    className="w-full h-full object-cover"
-                  />
+                   <img
+                      src={portfolio.thumbnailUrl}
+                      alt={portfolio.title}
+                      className="w-full h-full object-cover"
+                    />
                 </div>
               ) : (
                 <div className="h-96 bg-gray-200 flex items-center justify-center">
