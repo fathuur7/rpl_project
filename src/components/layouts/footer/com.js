@@ -21,16 +21,14 @@ export default function Footer() {
       links: [
         { name: "Home", href: "/" },
         { name: "Services", href: "/explore/services" },
-        { name: "About Us", href: "/about" },
-        { name: "Contact", href: "/contact" }
+        { name: "About Us", href: "/about" }
+        // { name: "Contact", href: "/contact" }
       ]
     },
     {
       title: "Resources",
       links: [
         { name: "Blog", href: "/blog" },
-        { name: "Case Studies", href: "/case-studies" },
-        { name: "Testimonials", href: "/testimonials" },
         { name: "FAQ", href: "/faq" }
       ]
     }
