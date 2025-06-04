@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import { ArrowLeft, Calendar, User, Tag, FileText, Clock, CheckCircle, Star, MessageCircle, ThumbsUp } from 'lucide-react'
 import useCurrentUser from '@/hooks/useCurrentUser'
 
@@ -308,14 +309,16 @@ const PortfolioDetailPage = () => {
           {/* Main Content */}
           <div className="lg:col-span-2">
             <div className="bg-white rounded-lg shadow-md overflow-hidden mb-8">
-              {/* Portfolio Image */}
               {portfolio.thumbnailUrl ? (
                 <div className="h-96 bg-gray-200 relative">
-                   <img
-                      src={portfolio.thumbnailUrl}
-                      alt={portfolio.title}
-                      className="w-full h-full object-cover"
-                    />
+                  <Image
+                    src={portfolio.thumbnailUrl}
+                    alt={portfolio.title}
+                    layout="fill"
+                    objectFit="cover"
+                    className="w-full h-full object-cover"
+                    priority
+                  />
                 </div>
               ) : (
                 <div className="h-96 bg-gray-200 flex items-center justify-center">
