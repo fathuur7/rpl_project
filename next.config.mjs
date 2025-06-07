@@ -5,7 +5,8 @@ const nextConfig = {
           "cdn.dribbble.com",
           "public.readdy.ai",
           'lh3.googleusercontent.com',
-          'https://res.cloudinary.com'
+          'https://res.cloudinary.com',
+          "res.cloudinary.com"
         ], // Tambahkan domain yang diizinkan
 
       }

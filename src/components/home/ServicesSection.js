@@ -20,38 +20,56 @@ const ServicesSection = () => {
             id: 1,
             name: "Brand Identity Design",
             description: "Create compelling brand identities that resonate with your target audience and stand out in the marketplace.",
-            services: ["Logo Design", "Brand Guidelines", "Color Palette", "Typography Selection", "Brand Strategy"]
+            services: ["Logo Design", "Brand Guidelines", "Color Palette", "Poster Design", "Brochure"]
           },
           {
             id: 2,
-            name: "Web Development",
-            description: "Build responsive, fast, and user-friendly websites that drive engagement and conversions.",
-            services: ["Responsive Design", "E-commerce Solutions", "CMS Development", "Performance Optimization", "SEO Integration"]
+            name: "Merchandise Design",
+            description: "Craft visually appealing and functional product designs that elevate your brand and connect with your audience.",
+            services: ["Packaging Design", "T-shirt & Merchandise Design", "Sticker & Label Design", "Interior & Space Branding"]
           },
           {
             id: 3,
             name: "UI/UX Design",
             description: "Design intuitive user experiences that delight users and achieve your business objectives.",
-            services: ["User Research", "Wireframing", "Prototyping", "Usability Testing", "Interface Design"]
+            services: ["User Research", "Wireframing & Prototyping", "User Interface Design", "Usability Testing", "Interface Design"]
           },
           {
             id: 4,
-            name: "Digital Marketing",
-            description: "Comprehensive digital marketing strategies to grow your online presence and reach your audience.",
-            services: ["Social Media Management", "Content Strategy", "PPC Advertising", "Email Marketing", "Analytics & Reporting"]
-          },
-          {
-            id: 5,
             name: "Mobile App Design",
             description: "Create stunning mobile applications that provide exceptional user experiences across all devices.",
             services: ["iOS App Design", "Android App Design", "Cross-platform Solutions", "App Store Optimization", "User Testing"]
           },
-          {
-            id: 6,
-            name: "Print Design",
-            description: "Professional print design services that make your brand tangible and memorable.",
-            services: ["Business Cards", "Brochures", "Packaging Design", "Event Materials", "Corporate Stationery"]
-          }
+          // {
+          //   id: 2,
+          //   name: "Web Development",
+          //   description: "Build responsive, fast, and user-friendly websites that drive engagement and conversions.",
+          //   services: ["Responsive Design", "E-commerce Solutions", "CMS Development", "Performance Optimization", "SEO Integration"]
+          // },
+          // {
+          //   id: 3,
+          //   name: "UI/UX Design",
+          //   description: "Design intuitive user experiences that delight users and achieve your business objectives.",
+          //   services: ["User Research", "Wireframing", "Prototyping", "Usability Testing", "Interface Design"]
+          // },
+          // {
+          //   id: 4,
+          //   name: "Digital Marketing",
+          //   description: "Comprehensive digital marketing strategies to grow your online presence and reach your audience.",
+          //   services: ["Social Media Management", "Content Strategy", "PPC Advertising", "Email Marketing", "Analytics & Reporting"]
+          // },
+          // {
+          //   id: 5,
+          //   name: "Mobile App Design",
+          //   description: "Create stunning mobile applications that provide exceptional user experiences across all devices.",
+          //   services: ["iOS App Design", "Android App Design", "Cross-platform Solutions", "App Store Optimization", "User Testing"]
+          // },
+          // {
+          //   id: 6,
+          //   name: "Print Design",
+          //   description: "Professional print design services that make your brand tangible and memorable.",
+          //   services: ["Business Cards", "Brochures", "Packaging Design", "Event Materials", "Corporate Stationery"]
+          // }
         ];
         
         setCategories(mockData);
@@ -89,13 +107,13 @@ const ServicesSection = () => {
       <svg key="uiux" className="w-16 h-16 mx-auto" fill="currentColor" viewBox="0 0 24 24">
         <path d="M21 2H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h7l-2 3v1h8v-1l-2-3h7c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 12H3V4h18v10z"/>
       </svg>,
-      // Digital Marketing
-      <svg key="marketing" className="w-16 h-16 mx-auto" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M7.07,18.28C7.5,17.38 8.12,16.5 8.91,15.77L10.36,17.22C9.35,18.22 8.24,18.5 7.07,18.28M18.93,18.28C17.76,18.5 16.65,18.22 15.64,17.22L17.09,15.77C17.88,16.5 18.5,17.38 18.93,18.28M12,15.5C10.07,15.5 8.5,13.93 8.5,12C8.5,10.07 10.07,8.5 12,8.5C13.93,8.5 15.5,10.07 15.5,12C15.5,13.93 13.93,15.5 12,15.5Z"/>
-      </svg>,
       // Mobile App
       <svg key="mobile" className="w-16 h-16 mx-auto" fill="currentColor" viewBox="0 0 24 24">
         <path d="M17,19H7V5H17M17,1H7C5.89,1 5,1.89 5,3V21C5,22.11 5.89,23 7,23H17C18.11,23 19,22.11 19,21V3C19,1.89 18.11,1 17,1Z"/>
+      </svg>,
+      // Digital Marketing
+      <svg key="marketing" className="w-16 h-16 mx-auto" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M7.07,18.28C7.5,17.38 8.12,16.5 8.91,15.77L10.36,17.22C9.35,18.22 8.24,18.5 7.07,18.28M18.93,18.28C17.76,18.5 16.65,18.22 15.64,17.22L17.09,15.77C17.88,16.5 18.5,17.38 18.93,18.28M12,15.5C10.07,15.5 8.5,13.93 8.5,12C8.5,10.07 10.07,8.5 12,8.5C13.93,8.5 15.5,10.07 15.5,12C15.5,13.93 13.93,15.5 12,15.5Z"/>
       </svg>,
       // Print Design
       <svg key="print" className="w-16 h-16 mx-auto" fill="currentColor" viewBox="0 0 24 24">

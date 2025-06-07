@@ -327,6 +327,13 @@ const HireDesignerPage = () => {
                     )}
                   </div>
                   
+                  {/* Max Revisions */}
+                  <div className="space-y-2">
+                    <Label htmlFor="attachments" className="flex items-center">
+                      Max Revisions
+                    </Label>
+                    <span className="text-sm text-gray-500 ml-1">Maximum of 4 revisions allowed</span>
+                  </div>
                   {/* Submit Button */}
                   <div className="pt-4">
                     <Button 
